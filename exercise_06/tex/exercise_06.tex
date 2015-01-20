@@ -1,0 +1,164 @@
+\documentclass{scrartcl}
+
+\input{./packages}
+\input{./definitions}
+\newcommand{\exercise}[2]{\vspace{1em}\noindent{\bf Exercise #1 (#2)}}
+\renewcommand{\proof}{\vspace{0.8em}\noindent{\bf Proof: }}
+
+\begin{document}
+\noindent{\footnotesize Game Theory 2014/15, Exercise 6} 
+\hfill 
+{\footnotesize \input{./currentDate.txt}}
+\newline
+{\footnotesize \input{../../NAMES.txt}}
+
+\noindent\hrulefill
+
+\exercise{6.1}{Properly mixed strategies}
+Let $S$ be finite or countable set of pure strategies 
+(with at least two elements), 
+let $\Sigma := \Delta(S)$ be the mixed strategies.
+We call a strategy $\sigma$ \emph{properly mixed} if there does not exist
+an $s\in S$ such that $\sigma(s)=1$ and $\sigma(s^\prime)=0$ for all other
+$s^\prime\neq s$.
+
+Now let $\sigma\in\Sigma$ be an arbitrary strategy. 
+We want to show that there exists a sequence $(\sigma_n)_n$ of properly 
+mixed strategies with $\lim_{n\to\infty} \sigma_n = \sigma$.
+
+We show a slightly stronger statement that there exists a sequence of $\sigma_n$
+with $\sigma_n(s) > 0$ for \emph{all} $s\in S$.
+
+Suppose that we can find a strategy $\gamma\in\Sigma$ with the property 
+$\gamma(s) > 0$ for all $s\in S$.
+Define the sequence as follows:
+\[
+  \sigma_n := \frac{1}{n}\gamma + \rPar{1 - \frac{1}{n}}\sigma.
+\]
+For all $s\in S$ it holds:
+\[
+  \sigma_n(s) \geq \frac{1}{n}\gamma(s) > 0,
+\]
+and in particular, $\sigma_n$ is properly mixed.
+
+This sequence indeed converges to $\sigma$ (e.g. in the $\norm{-}_\infty$-norm,
+or actually in any norm $\norm{-}$):
+\begin{align*}
+  \norm{\sigma_n-\sigma} 
+    = \norm{\frac{1}{n}\gamma - \frac{1}{n}\sigma}
+    \leq \frac{1}{n}\rPar{\norm{\gamma} + \norm{\sigma}}
+    = \frac{\const}{n} \overset{n\to\infty}\longrightarrow 0,
+\end{align*}
+that is, $\lim_{n\to\infty} \sigma_n = \sigma$.
+
+The remaining question is whether we can obtain a $\gamma$ as above. 
+For $S$ finite, we can construct $\gamma$ as follows:
+\[
+  \gamma(s) := \frac{1}{\abs{S}}.
+\]
+If $S$ is countably infinite, we can choose some bijection $\psi$ between $S$
+and $\Natural$ and define $\gamma$ as follows:
+\[
+  \gamma(s) := 2^{-\psi(s)},
+\]
+this is indeed a probability distribution, because:
+\begin{align*}
+  \sum_{s\in S}\gamma(s) 
+    = \sum_{n\in \Natural}\gamma\rPar{\psi^{-1}(s)}
+    = \sum_{n\in \Natural}2^{-n} = 1.
+\end{align*}
+In both cases we obtain a $\gamma$ as required for the construction of the
+sequence of the properly mixed strategies. \hfill \qed
+
+\exercise{6.2}{``Perfect'' Nash-Equilibria}
+The concept of ``perfect nash-equilibria'' does not seem to occur anywhere 
+except the few slides of the lecture. Even the 1k+ pages book on game theory
+does not mention it (?). Link to some literature would be highly appreciated.
+
+\exercise{6.3}{Evolutionary Stable Strategies}
+Let $N=\set{1, 2}$ be the set of players, $S$ a finite set of strategies (with
+at least two elements) and $u_1: \Sigma(S)^2 \to [0, \infty]$ a payoff function. 
+The payoff for the second player is assumed to be symmetric: 
+$u_2(x, y) = u_1(y, x)$ (we don't need this fact here, but the whole model does
+not make any sense otherwise).
+
+\noindent {\bf a)} 
+Let $x^\ast\in S$ be a \emph{strict} symmetric Nash-Equilibrium, that is, for
+all $x\neq x^\ast$ it holds:
+\[
+  u_1(x, x^\ast) < u_1(x^\ast, x^\ast).
+\]
+Then $x^\ast$ is an evolutionary stable strategy, that is: for all 
+$x\neq x^\ast$ there exists an $\epsilon_0 > 0$ such that for all 
+$\epsilon \in (0, \epsilon_0)$ it holds:
+\[
+  (1-\epsilon)u_1(x,x^\ast) + \epsilon u_1(x,x) =
+  (1-\epsilon)u_1(x^\ast,x^\ast) + \epsilon u_1(x^\ast,x).
+\]
+
+\noindent {\bf Proof: } Fix some $x\neq x^\ast$. 
+Let $\norm{u_1}_\infty := \max_{s\in \Sigma(S)}\abs{u_1(s)}$ denote the maximum payoff. We choose the $\epsilon_0$
+as follows:
+\[
+  \epsilon_0 := 
+    \frac{u_1(x^\ast, x^\ast) - u_1(x, x^\ast)}
+    {4\norm{u_1}_\infty},
+\]
+this choice will becomes obvious after one looks at the
+following inequality. For all $\epsilon < \epsilon_0$ it now holds:
+\begin{align*}
+  &u_1(x, x^\ast) + \epsilon\rPar{
+    u_1(x, x) - u_1(x, x^\ast) + u_1(x^\ast, x^\ast) - u_1(x^\ast, x)
+  } \\
+  &\leq u_1(x, x^\ast) + \epsilon \rPar{4 \norm{u_1}_\infty} \\
+  &< u_1(x, x^\ast) + \epsilon_0\rPar{4 \norm{u_1}_\infty} \\
+  &= u_1(x, x^\ast) + \rPar{u_1(x^\ast, x^\ast) - u_1(x, x^\ast)} \\
+  &= u_1(x^\ast, x^\ast)
+\end{align*}
+This is exactly equivalent to the definition of ESS (the previous expression 
+arises from the next one, again: the original thought process goes in the 
+opposite direction of the proof):
+\[
+  (1-\epsilon)u_1(x, x^\ast) + \epsilon u_1(x, x)
+  < 
+  (1-\epsilon)u_1(x^\ast, x^\ast) + \epsilon u_1(x^\ast, x).
+\]
+\hfill \qed
+
+\noindent {\bf Remark: } The sense of this exercise is not to
+just say ``that's true, because that's what the book says'',
+because the book says (quote): ``verify!'' (Theorem 5.52).
+
+\vspace{1em}
+
+\noindent {\bf b)} Let $\sigma^\ast$ be an ESS and let 
+$\sigma^\prime$ be a symmetric Nash-Equilibrium that is 
+also a best response to $\sigma^\ast$.
+Then $\sigma^\ast = \sigma^\prime$.
+
+\noindent {\bf Proof:} This is a corollary (or rather a 
+partial paraphrasing) of the theorem 5.52.
+Suppose for the sake of contradiction that 
+$\sigma^\prime\neq \sigma^\ast$.
+By theorem 5.52 applied to the ESS $\sigma^\ast$ one 
+of the following two conditions must hold:
+\begin{align*}
+  u_1(\sigma^\prime, \sigma^\ast) < 
+  u_1(\sigma^\ast, \sigma^\ast) \\
+  u_1(\sigma^\prime, \sigma^\ast) = 
+  u_1(\sigma^\ast, \sigma^\ast) \wedge
+  u_1(\sigma^\prime, \sigma^\prime) <
+  u_1(\sigma^\ast, \sigma^\prime).
+\end{align*}
+If the first condition holds, then $\sigma^\prime$ is not 
+a best response to $\sigma^\ast$. 
+If the second condition holds, then $\sigma^\prime$ is not
+a Nash-Equilibrium (because $\sigma^\ast$ is a possible 
+profitable deviation from $\sigma^\prime$).
+Both cases yield a contradiction. Therefore it must hold:
+$\sigma^\prime = \sigma^\ast$. \hfill \qed
+
+\vspace{1em}
+
+\noindent {\bf c) d)} Omitted. 
+\end{document}

@@ -1,0 +1,9 @@
+\[blue\]
+\[orange\]
+*.log
+*.aux
+*.out
+template/tex/exercise_EXERCISENUMBER.pdf
+*.o
+*.zip
+attachment

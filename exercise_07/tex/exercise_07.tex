@@ -1,0 +1,209 @@
+\documentclass{scrartcl}
+
+\input{./packages}
+\usepackage{fancyvrb}
+\input{./definitions}
+\newcommand{\exercise}[2]{\vspace{1em}\noindent{\bf Exercise #1 (#2)}}
+\renewcommand{\proof}{\vspace{0.8em}\noindent{\bf Proof: }}
+
+\begin{document}
+\noindent{\footnotesize Game Theory 2014/15, Exercise 7} 
+\hfill 
+{\footnotesize \input{./currentDate.txt}}
+\newline
+{\footnotesize \input{../../NAMES.txt}}
+
+\noindent\hrulefill
+
+\exercise{7.1}{Compositions of strictly monotone functions}
+Let $O$ be some set of \emph{outcomes}, 
+$\preceq$ a total, reflexive and transitive relation 
+(\emph{preference} relation). 
+Let $u: O\times O \to \Real$ \emph{represent} the relation $\preceq$, 
+that is, for all $x,y\in O$ it holds:
+\[
+  x \preceq y \Leftrightarrow u(x) \leq u(y).
+\]
+Let $v:\Real \to \Real$ be \emph{strictly} monotonously increasing. 
+We claim that $v\circ u$ also represents $\preceq$.
+
+\noindent {\bf Lemma: } If $v: \Real \to \Real$ is strictly monotonous, that
+is:
+\[
+  a < b \Rightarrow v(a) < v(b),
+\]
+then it holds:
+\[
+  a \leq b \Leftrightarrow v(a) \leq v(b).
+\]
+
+\noindent {\bf Proof of the lemma: }
+Suppose $a\leq b$. Then either $a=b$ or $a<b$. 
+The first case clearly implies $v(a) = v(b)$, because $v$ is a function, not
+some non-deterministic algorithm.
+The second case implies by definition $v(a) < v(b)$. 
+In both cases we obtain $v(a) \leq v(b)$.
+
+Now suppose $v(a) \leq v(b)$.
+If $v(a) = v(b)$, then $a=b$, because $v$ is injective.
+If $v(a) < v(b)$, then $b \leq a$ cannot hold, because otherwise we would
+have $v(b) \leq v(a)$. Therefore, it must hold $a < b$.
+In both cases we obtain $a \leq b$.
+
+Both directions together show the lemma. \hfill \qed
+
+Now, the proof of the main claim that $(v\circ u)$ also represents $\preceq$ is
+easy:
+
+\noindent {\bf Proof: } For all $x,y\in O$ it holds:
+\[
+  x\preceq y 
+    \Leftrightarrow u(x) \leq u(y) 
+    \Leftrightarrow v(u(x)) \leq v(u(y)).
+\]
+\hfill \qed
+
+\noindent{\bf Remark: } Injectivity of $v$ is really necessary, because 
+otherwise we get only 
+\[
+  x\preceq y 
+    \Leftrightarrow u(x) \leq u(y) 
+    \Rightarrow v(u(x)) \leq v(u(y)).
+\]
+with $v=0$ as counterexample for the opposite implication.
+
+\exercise{7.2}{Lex}
+Define the lexicographical order on $I^2 := [0,1]^2$ as follows:
+\newcommand{\lex}{\leq_{lex}}
+\[
+  x \lex y :\Leftrightarrow x_1 < x_y \lor (x_1 = y_2 \land x_2 \leq y_2).
+\]
+
+\noindent {\bf a)} We claim that $\leq$ is a total, reflexive and transitive
+relation.
+
+\noindent {\bf Proof: } Let $x, y\in I^2$ be two arbitrary points.
+Since the usual relation $\leq$ is total on $I$, there are three possible 
+cases: $x_1 < y_1$, $x_1 = y_1$ or $x_1 > y_1$. The first and last
+cases are analogous, so we consider only the first two.
+In the first case it holds $x \lex y$. 
+In the second case, at least one of the both inequalities 
+$x_2 \leq y_2$ or $y_2 \leq x_2$ must hold, therefore
+it's either $x\lex y$ or $y\lex x$ respectively. 
+In every case, either $x\lex y$ or $y\lex x$ holds, so $\lex$ is total.
+
+Obviously, $x_1 = x_1$ and $x_2 \leq x_2$, therefore $x\lex x$, so $\lex$ is
+reflexive. 
+
+Now let $z\in I^2$ be a third point. 
+We want to show that from $x \lex y \lex z$ it follows that $x \lex z$.
+The proof can again be done by a trivial case-analysis.
+However, since it's tedious and error-prone, it seems to be easier and 
+safer to check all the cases by brute-force, for example using the
+following little C program:
+\lstinputlisting{truthTable.c}
+This program generates all possible cases for all possible relations of
+$x_1$, $x_2$, ..., $z_2$ and checks that $x \lex z$ holds whenever 
+$x\lex y$ and $y\lex z$ hold. 
+The output is a truth table with $3^6 = 729$ lines, together with a last
+line that tells us whether the implication always holds. 
+\lstinputlisting{truthTable.txt}
+The result is $1$, which means \emph{true}, so the computer-assisted 
+case analysis proves our claim. \hfill \qed 
+
+\vspace{1.5em}
+
+\noindent {\bf b)} We want to show that $\lex$ on $I^2$ is not
+representable by any $\Real$-valued function.
+
+Suppose for the sake of contradiction that there is some $u: I^2 \to \Real$
+which represents $\lex$.
+For all $x \in I$ it must hold: 
+$u(x, 0) < u(x, 1)$, that is $u(x, 1) - u(x, 0)$ is positive.
+Subdivide the unit interval as follows:
+\[
+  X_n := \setPredicate{x\in I}{u(x, 1) - u(x, 0) > \frac{1}{n}}.
+\]
+Since $I$ is uncountable, there must exists some $N\in \Natural$ such that
+$X_N$ is also uncountable, because otherwise the unit interval $I$ would be
+countable as a countable union of countable sets.
+Let $M := \ceil{u(1,1)}$ be the ceiled maximum value of the function $u$,
+and $m := \floor{u(0,0)}$ the floored minimum value of the function $u$.
+Let $K := 2(M-m)N + 1$.
+Since $X_N$ contains infinitely many elements, we can find $K$ 
+distinct elements $x_1, \dots, x_K$ in $X_N$. 
+Without loss of generality, we can assume that the finite sequence 
+$(x_i)_{i=1}^K$ is sorted in increasing order.
+It holds:
+\[
+  u(x_i, 1) + \frac{1}{N} < u(x_{i+1}, 0) + \frac{1}{N} < u(x_{i+1}, 1),
+\]
+applying this $K-1$ times to the whole sequence $(x_i)_i$ yields:
+\[
+  u(x_K, 1) > u(x_1, 1) + \frac{2(M-m)N}{N} = u(x_1, 1) + 2(M-m),
+\]
+and in particular
+\[
+  u(1, 1) \geq u(x_K, 1) > u(x_1, 1) + 2(M-m) \geq u(0,0) + 2(M-m).
+\]
+Now we obtain the situation where the difference between $u(0,0)$ and
+$u(1,1)$ is at least twice as big as the difference between the 
+smallest and the largest value of $u$. This is a contradiction.
+Therefore there can not be a representing function for $\lex$. 
+\hfill \qed
+
+\exercise{7.3}{Harasanyi-Game}
+This seems to be just a ``term-unification''/``definition-understanding'' 
+task, so we just show how the concepts in the text match the symbols in
+the definition of a Harasanyi-game.
+
+The set of players is $N = \set{\textrm{buyer}, \textrm{seller}}$.
+The sets of types are 
+\begin{align*}
+  T_{\textrm{buyer}} &= \set{ \textrm{wantCar}} \\
+  T_{\textrm{seller}} &= \set{\textrm{offerGoodCar}, \textrm{offerBadCar}}.
+\end{align*}
+The type-dependent action sets are:
+\begin{align*}
+  A_{\textrm{buyer }}(\textrm{wantCar}) &= \set{\textrm{buy},\neg \textrm{buy}} \\
+  A_{\textrm{seller}}(\textrm{offerGoodCar}) = A_{\textrm{seller}}(\textrm{offerBadCar}) &= \set{\textrm{sell}, \neg \textrm{sell}}.
+\end{align*}
+The probability distribution $\P \in \Delta(T)$ is described by a single 
+constant $q\in [0, 1]$, because 
+\[
+  T = \set{
+    (\textrm{wantCar}, \textrm{offerGoodCar}), 
+    (\textrm{wantCar}, \textrm{offerBadCar})}
+\]
+contains just two elements, so it holds:
+\begin{align*}
+  \P\sPar{\set{(\textrm{wantCar}, \textrm{offerGoodCar})}} &= q \\
+  \P\sPar{\set{(\textrm{wantCar}, \textrm{offerBadCar})}} &= 1 - q.
+\end{align*}
+The type dependent utility functions $u_1, u_2$ are given by the matrices
+(we use the convention that $u_1$ and $u_2$ are written in single cell):
+\begin{align*}
+  u_{1,2}(\textrm{wantCar}, \textrm{offerGoodCar}) &= \mat{ccc}{
+                      & \textrm{sell}   & \neg \textrm{sell} \\
+    \textrm{buy}      & 6-c, c & 0, 5 \\
+    \neg \textrm{buy} & 0,5    & 0, 5
+  }
+  \\
+  u_{1,2}(\textrm{wantCar}, \textrm{offerBadCar}) &= \mat{ccc}{
+             & \textrm{sell}   & \neg \textrm{sell} \\
+    \textrm{buy}      & 4-c, c & 0, 0 \\
+    \neg \textrm{buy} & 0,0    & 0, 0
+  }.
+\end{align*}
+Here $c$ stands for the cost of the car.
+\end{document}
+
+                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                               
+                                                                                                                                                                                                                                               

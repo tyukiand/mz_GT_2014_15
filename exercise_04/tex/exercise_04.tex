@@ -1,0 +1,308 @@
+\documentclass{scrartcl}
+
+
+\input{./packages}
+\input{./definitions}
+\DeclareMathOperator{\argmin}{argmin}
+\DeclareMathOperator{\dist}{dist}
+\newcommand{\exercise}[2]{\vspace{1em}\noindent{\bf Exercise #1 (#2)}}
+\renewcommand{\proof}{\vspace{0.8em}\noindent{\bf Proof: }}
+
+\begin{document}
+\noindent{\footnotesize Game Theory 2014/15, Exercise 4} 
+\hfill 
+{\footnotesize \input{./currentDate.txt}}
+\newline
+{\footnotesize \input{../../NAMES.txt}}
+
+\noindent\hrulefill
+
+\exercise{4.1}{Equalizing strategies}
+
+Let $N=\set{1,2}$ be a set of players, $S_1 := \set{T,M,B}$, 
+$S_2 := \set{L, C, R}$ their sets of pure strategies, and 
+$u_1,u_2: S_1\times S_2 \to \Real$ their utility functions given by the 
+following matrix:
+\[
+   \mat{cccc}{
+       & L       & C       & R \\
+    T  & (3, -3) & (-3, 3) & (0, 0) \\
+    M  & (2, -2) & (6, -6) & (4, -4) \\
+    B  & (2, -2) & (5, -5) & (6, -6).
+   }
+\]
+Let's write $U := (u_1(x, y))_{x\in S_1, y \in S_2}$.
+Since this is a zero-sum game, the analogon of the matrix $U$ for player $2$ 
+is $-U^T$.
+
+\noindent {\bf a)} We want to find a mixed strategy for player $1$ such
+that the expected gain is the same for all pure strategies of player $2$. 
+Let's denote this mixed strategy by a $S_1$-valued random variable $X_1$.
+That is, we want to show that there exists a constant $c_1\in\Real$ and 
+numbers $\P[X_1 = x]$ for $x\in S_1$ such that for all $y\in S_2$ it holds:
+\[
+  c_1 = \E[u_1(X_1,y)] = \sum_{x\in S_1} \P[X_1 = x] u_1(x, y).
+\]
+Keeping in mind that it must hold that $\sum_{x}\P[X_1 = x] = 1$, we obtain 
+the following linear equation:
+\[
+  \mat{cccc}{
+    u_1(T, L) & u_1(M, L) & u_1(B, L) & -1 \\
+    u_1(T, C) & u_1(M, C) & u_1(B, C) & -1 \\
+    u_1(T, R) & u_1(M, R) & u_1(B, R) & -1 \\
+    1         & 1         & 1         & 0
+  }
+  \mat{c} {
+    \P[X_1 = T] \\
+    \P[X_1 = M] \\
+    \P[X_1 = B] \\
+    c_1
+  }
+  =
+  \mat{c} {
+    0 \\ 0 \\ 0 \\ 1
+  },
+\]
+which we write more compactly as
+\[
+  \mat{cc}{
+    U^T & -1_{3\times 1} \\
+    1_{1\times 3} & 0
+  }
+  \mat{c}{p_1 \\ c_1} =
+  \mat{c}{0_{3\times 1} \\ 1}
+\]
+with the obvious meaning of $p_1$. This can be solved with something like
+Octave/Matlab as follows:
+\begin{lstlisting}
+U = [3,-3,0;2,6,4; 2,5,6];
+o = [1;1;1];
+first = [U',-o;o',0];
+second = [-U, -o;o',0];
+rhs = [0;0;0;1];
+% The result for part a)
+disp(first \ rhs);
+% The result for part b)
+disp(second \ rhs);
+\end{lstlisting}
+The result is:
+\[
+  p_1^T = \mat{ccc}{0.4 & 0.6 & 0} \qquad c_1 = 2.4.
+\]
+
+\noindent {\bf b)} A completely symmetric derivation for player 2 
+leads to the equation
+\[
+  \mat{cc}{
+    -U & -1_{3\times 1} \\
+    1_{1\times 3} & 0
+  }
+  \mat{c}{p_2 \\ c_2} = 
+  \mat{c}{0_{3\times 1} \\ 1}
+\]
+with the solution 
+\[
+  p_2^T = \mat{ccc}{0.88 & 0.08 & 0.04} \qquad c_2 = -2.4.
+\]
+
+\noindent {\bf c) } We want to show that the equalizing strategies 
+$X_1$ and $X_2$ (with the properties and probabilities as above) 
+are optimal for both players.
+
+First, notice the following property (resulting from what has been called
+``multilinearity'' in the lecture). If $Y_2$ is some mixed strategy of the
+second player, then it holds:
+\[
+  \E[u_1(X_1, Y_2)] = \sum_{y\in S_2}\P[Y_2 = y]\E[u_1(X_1,y)]
+  = \sum_{y\in S_2}\P[Y_2 = y]c_1 = c_1.
+\]
+In particular, we obtain just the constant $c_1$ if we minimize over all
+possible mixed strategies of player $2$:
+\[
+  \min_{Y_2} \E[u_1(X_1, Y_2)] = c_1.
+\]
+A symmetric statement holds for $c_2$. This allows us to make estimations for
+Maxmin-values for both players. Here are two inequalities for Maxmin-values of
+player $1$:
+\begin{align*}
+  \max_{Y_1} \min_{Y_2} \E[u_1(Y_1, Y_2)] 
+    &\geq \min_{Y_2} \E[u_1(X_1, Y_2)] = \min_{Y_2} c_1 = c_1 \\
+  \max_{Y_1}\min_{Y_2}\E[u_1(Y_1, Y_2)] 
+    &= \max_{Y_1} \min_{Y_2} \E[-u_2(Y_1, Y_2)] \\
+    &\leq \max_{Y_1} \E[-u_2(Y_1, X_2)] \\
+    & = \max_{Y_1}(-c_2) \\
+    & = -c_2
+\end{align*}
+In particular, if we have the situation that $c_2 = -c_1$, these two 
+inequalities combine into a single equality:
+\[
+  \max_{Y_1} \min_{Y_2} \E[u_1(Y_1, Y_2)] = c_1.
+\]
+Exchanging the indices $1$ and $2$ yields a completely symmetric result for
+player $2$. 
+
+In parts a) and b) we have found out that for the concrete example we have
+$c_1 = -c_2 = 2.4$, so we can conclude that the Maxmin-value for player $1$ is
+$2.4$ and the Maxmin-value for player $2$ is $-2.4$, which by definition makes
+the equalizing strategies $X_1$ and $X_2$ \emph{optimal}.
+
+\noindent {\bf d)} Now we want to consider a two-player zero-sum game where 
+the players $1$ and $2$ have more possible actions. We want to show that if 
+both players have equalizing strategies, these strategies are optimal.
+
+Suppose $S_1 = \set{1\dots n}$ and $S_2 = \set{1 \dots m}$ for some natural 
+numbers $n,m$. Let $U$ be a $n\times m$ matrix defined as above.
+Suppose there are equalizing strategies $X_1$ and $X_2$, that is, 
+there exist probability vectors $p_1\in \Real^n$ and $p_2\in\Real^m$ such that
+the following holds:
+\[
+  \mat{cc}{
+    U^T & -1_{m\times 1} \\
+    1_{1\times n} & 0
+  }
+  \mat{c}{p_1 \\ c_1} =
+  \mat{c}{0_{m\times 1} \\ 1}
+\]
+\qquad
+\[
+  \mat{cc}{
+    -U & -1_{n\times 1} \\
+    1_{1\times m} & 0
+  }
+  \mat{c}{p_2 \\ c_2} =
+  \mat{c}{0_{n\times 1} \\ 1}.
+\]
+In c) we have shown that it is sufficient to establish $c_2 = -c_1$ in order 
+to prove the optimality (the argument did not depend on the dimension of
+the matrix $U$ in any way). It holds:
+\begin{align*}
+c_2 &= \mat{cc}{p_2^T & c_2} \mat{c}{0_{m\times 1} \\ 1} \\
+    &= \mat{cc}{p_2^T & c_2} \mat{cc}{
+      U^T & -1_{m\times 1} \\ 1_{1\times n} & 0
+    } \mat{c}{p_1 \\ c_1} \\
+    &= -\rPar{
+      \mat{cc}{-U & -1_{n\times 1} \\ 1_{1\times m} & 0}
+      \mat{c}{p_2 \\ c_2}
+    }^T \mat{c}{p_1 \\ c_1} \\
+    &= - \mat{cc}{0_{1\times n} & 1} \mat{c}{p_1 \\ c_1} \\
+    &= - c_1
+\end{align*}
+Hence, the equalizing strategies are optimal. \hfill \qed
+
+\noindent {\bf e)} Finally, we want to consider a counterexample.
+Consider the following two-player zero-sum game:
+\[
+  \mat{ccc}{
+       & L        & R \\
+     T & (1, -1)  & (1, -1) \\
+     B & (-1, 1)  & (-1, 1)
+  }
+\]
+Here, the first player has an equalizing strategy with 
+$p_1 = \mat{cc}{0.5 & 0.5}^T$. With this strategy, 
+the first player would on average win nothing, 
+no matter what the strategy of the second player is.
+
+However, the optimal strategy would obviously be the pure strategy $T$.
+Since the decision of the second player can not affect the outcome in any way, 
+he can take either $L$ or $R$ as optimal strategy. The value of the game is 
+therefore $(1, -1)$, and not $0$, if both play rationally, the first player 
+wins $(+1)$ and the second loses $(-1)$.
+
+However, this is not a contradiction to d), because here the second player 
+does not have an equalizing strategy: no matter how he weights $L$ and $R$, 
+the outcome in the row $T$ is always $(-1)$, 
+the outcome in the row $B$ is always $(+1)$, and $(-1) \neq (+1)$.
+
+\exercise{4.2}{Convexity}
+
+\noindent {\bf a)} Let $A \subseteq \Real^n$ and $B\subseteq \Real^m$ be two
+convex sets. We want to show that $A\times B$ is again convex.
+
+Let $(a_1, b_1), (a_2, b_2) \in A\times B$ be two arbitrary points and 
+$t\in[0, 1]$.
+Since $A$ is convex, $a_1 (1 - t) + a_2 t \in A$.
+Since $B$ is convex, $b_1 (1 - t) + b_2 t \in B$.
+Therefore it holds:
+\begin{align*}
+  (a_1, b_1) (1 - t) + (a_2, b_2) t = 
+  (a_1 (1 - t) + a_2 t, b_1 (1 - t) + b_2 t) \in A \times B.
+\end{align*}
+\hfill \qed
+
+\noindent {\bf b) } Let $S$ be a finite set. Let 
+\[
+  \Delta(S) := 
+    \setPredicate{\sigma: S \to [0, 1]}{\sum_{s\in S}\sigma(s) = 1}.
+\]
+We want to show that $\Delta(S)$ is convex.
+
+Let $\sigma, \mu\in \Delta(S)$ and $t\in [0, 1]$ arbitrary. 
+For all $s\in S$ it holds:
+\begin{align*}
+  \sPar{(1 - t)\sigma  + t\mu}(s) \leq (1-t)\cdot 1 + t \cdot 1 = 1,
+\end{align*}
+and it is even more obvious that the value is nonnegative, so the range 
+of the function $\sPar{(1 - t)\sigma + t\mu}$ is contained in $[0, 1]$.
+
+Furthermore, it holds:
+\begin{align*}
+\sum_{s\in S}\sPar{(1 - t)\sigma + t \mu}(s) 
+  &= \sum_{s\in S}(1-t)\sigma(s) + t \mu(s) \\
+  &= (1-t)\sum_{s\in S}\sigma(s) + t \sum_{s\in S}\mu(s) \\
+  &= (1-t)\cdot 1 + t \cdot 1 \\
+  &= 1,
+\end{align*}
+therefore $\sPar{(1 - t)\sigma + t\mu}$ is again in $\Delta(S)$.
+\hfill\qed
+
+Notice that we have never actually used the fact that $S$ is finite.
+Moreover, the statement holds for measures on arbitrary sigma-algebras, but 
+one has to work a little bit to make some sense of the ``summation'' 
+(e.g. by replacing it with the Lebesgue-integral).
+
+\exercise{4.3}{Symmetric game}
+Consider the following game of players $1$ and $2$:
+\[
+  \mat{cccc}{
+     & L & C & R \\
+    T & 0,0 & 7,6 & 6,7 \\
+    M & 6,7 & 0,0 & 7,6 \\
+    B & 7,6 & 6,7 & 0,0
+  }.
+\]
+
+\noindent {\bf a)} We want to find an equilibrium of mixed strategies and show 
+that it is unique. Since the situation is completely symmetric, we focus on
+the first player. 
+
+Suppose the first player chooses a mixed strategy $X$ with a probability 
+vector $p = (p_T, p_M, p_B)$. Suppose that the second player chooses the 
+same probability vector for his strategy $Y$ (in the same order for $L, C, R$). 
+This gives us an
+upper bound for the Min-value for the first player playing with strategy $p$:
+\[
+  \E[u_1(X, Y)] = p^T \mat{ccc}{ 0 & 7 & 6 \\ 6 & 0 & 7 \\ 7 & 6 & 0} p
+    = 13(p_1p_2 + p_2p_3 + p_1p_3).
+\]
+This expression obviously\footnote{Ok, it might be not immediately obvious,
+to prove it rigorously one would have to optimize this function on a triangle,
+with gradients and Lagrange-multipliers and stuff like that... It's a bit 
+tedious and is rather calculus than game-theory. It's very similar to the 
+proof of inequalities of geometric and arithmetic means, but can also be seen
+by induction and some shuffling of the parentheses} 
+has $p = (\frac{1}{3}, \frac{1}{3}, \frac{1}{3})$ as it's only maximum.
+The value of the game is in this case $(6 + 7) / 3 = \frac{13}{3}$.
+
+\noindent {\bf b)} If the both players could cooperate, 
+the first player could deviate to the pure strategy $T$, and the second player
+could respond with $C$, which would lead to the result $(7,6)$, which is more
+than $(4.\bar 3, 4.\bar 3)$. However, if the second player fails to respond with
+$C$, and chooses $L$ instead, then the first player wins nothing at all, so 
+player $1$ might prefer to keep his randomized strategy in order to mitigate 
+the risks. 
+This is not an example of ``non-constructive egoism / exploitation'', 
+but rather an example where the second player could simply \emph{fail} to 
+respond with the answer that would be best for both, 
+so it's rather a ``BoS''-type example.
+\end{document}

@@ -1,0 +1,221 @@
+\documentclass{scrartcl}
+
+\input{./packages}
+\input{./definitions}
+\newcommand{\exercise}[2]{\vspace{1em}\noindent{\bf Exercise #1 (#2)}}
+\renewcommand{\proof}{\vspace{0.8em}\noindent{\bf Proof: }}
+
+\begin{document}
+\noindent{\footnotesize Game Theory 2014/15, Exercise 5} 
+\hfill 
+{\footnotesize \input{./currentDate.txt}}
+\newline
+{\footnotesize \input{../../NAMES.txt}}
+
+\noindent\hrulefill
+
+\exercise{5.1}{Compactness of certain families of measures}
+Let $S$ be a finite set. Consider the family of all probability measures on $S$:
+\[
+  \Delta(S) := \setPredicate{\sigma: S \to [0, 1]}{\sum_{s\in S}\sigma(s) = 1}.
+\]
+We interpret it as a subset of the finitely-dimensional space $\Real^S$, 
+which can be thought of as the set of all $\Real$-vectors indexed by elements
+of $S$. It is (unnaturally) isomorphic to $\Real^{\abs{S}}$ (one has to pick 
+some enumeration of $S$), so all theorems that hold for the canonical 
+finite-dimensional real vector space $\Real^n$ (for $n=\abs{S}$) 
+also hold for $\Real^S$. In particular, the Heine-Borel theorem holds.
+
+We want to show that $\Delta(S)$ is compact.
+For all $\sigma\in\Delta(S)$ it holds:
+\[
+  \norm{\sigma}_{\infty} = \max_{s \in S} \abs{\sigma(s)} \leq 1,
+\]
+so $\Delta(S)$ is bounded.
+
+To show that it is closed, consider the summation function:
+\[
+  F: \Real^S \to \Real, \qquad F(\sigma) := \sum_{s \in S}\sigma(s).
+\]
+We assume that it is known that $F$ is continuous. 
+The single-point set $\set{1}$ is closed, so it's preimage $F^{-1}(\set{1})$ 
+is closed.
+The unit cube $[0,1]^S$ is closed as a finite product of closed sets.
+Therefore, $\Delta(S)$ is closed as intersection of two closed sets:
+\[
+  \Delta(S) = [0,1]^S \cap F^{-1}(\set{1})
+\]
+By the Heine-Borel theorem, $\Delta(S)$ is compact.
+\hfill \qed
+
+\exercise{5.2}{Nash equilibria by Kakutani's fixed point theorem}
+We want to use Kakutani's fixed point theorem\footnote{
+  Notice that the statement is different from what was given in the problem
+  statement. It's unclear what the canonical topology on $\powerset(X)$ should
+  be.
+} 
+to prove the existence of Nash equilibria in strategic games with mixed 
+strategies.
+
+Let $n$ be a number of players, $S_i$ finite sets of pure strategies for each
+$i=1\dots n$, $u_i: \prod_i S_i \to \Real$ utility functions, and
+\[
+  U_i(\sigma) \equiv U_i(\sigma_1,\dots, \sigma_n) := 
+  \E[u_i(\sigma_1, \dots, \sigma_n)]
+\]
+the expected utilities for mixed strategies 
+$\sigma_i \in \Sigma_i := \Delta(S_i)$.
+
+\vspace{1em}
+
+\noindent {\bf (Kakutani)}
+  Let $X\subset \Real^n$ nonempty, compact and convex set.
+  Let $f: X\to \powerset(X)$ such that $f(x) \neq \emptyset$ is convex for all
+  $x\in X$. Let the graph of $f$
+  \[
+    \Gamma_f = \setPredicate{(x, y)\in X\times X}{x\in X, y\in f(x)}
+  \]
+  be closed in $X^2$.
+  Then $f$ has a fixed point $x_0\in X$ in the sense that $x_0\in f(x_0)$.
+\hfill \qed
+
+\vspace{1em}
+
+\noindent {\bf a)} 
+Let $X := \Sigma := \prod_{i=1}^n \Sigma_i$.
+As we have seen in 5.1, each $\Sigma_i$ is compact and convex. 
+By $(n - 1)$-fold application of 4.2 a) we see that the product $X$ is also convex.
+To see that $X$ is compact, we can either use Heine-Borel (notice that finite products of closed spaces are closed and finite products of bounded subsets of some $\Real^n_i$ are again bounded), or nuke the problem with the disproportionally general Tychonoff's theorem.
+
+\noindent {\bf b)} Now consider the \emph{best-responses function}
+\begin{align*}
+  &BR_i: \Sigma \to \powerset(\Sigma_i), \quad
+  BR_i(\sigma) := \argmax_{\theta\in\Sigma_i} U_i(\sigma_{-i}, \theta), \\
+  &BR: \Sigma \to \powerset(\Sigma), \quad
+  BR(\sigma) := \prod_{i=1}^n BR_i
+\end{align*}
+where $\argmax$ is interpreted as a set-function that can return multiple maxima.
+We want to show that $BR_i(\sigma)$ fulfill the first condition in Kakutani's
+theorem. By exercise 5.1 the set $\Sigma_i$ is compact, and $U_i$ is 
+continuous, therefore the partially applied function $U_i(\sigma_{-1}, -)$ 
+has at least one maximum on $\Sigma_i$ for arbitrary $\sigma$.
+This shows that $BR_i(\sigma)$ is a nonempty set. 
+
+The convexity of the sets $BR_i(\sigma)$ is a simple consequence of the 
+multilinearity of the functions $U_i$. 
+Let $x, y\in BR_i(\sigma)$ and $t\in[0, 1]$. 
+Let $M := \max_\theta U_i(\sigma_{-1}, \theta)$.
+It holds:
+\[
+  U_i(\sigma_{-1}, (t - 1)x + t y) = 
+  (1 - t) U_i(\sigma_{-1}, x) + t U_i(\sigma_{-1}, y) = (1 - t) M + t M = M,
+\]
+and therefore by definition $(1-t)x + ty\in BR_i(\sigma)$. Since we already 
+know from 4.2 b) that products of convex sets are again convex, we conclude 
+that $BR(\sigma) = \prod_{i=1}^n BR_i(\sigma)$ is also convex (and
+nonempty).
+
+\noindent {\bf c)} Now we show that the graph $\Gamma_{BR}$ is closed.
+
+Let $\rPar{(\sigma^n, r^n)}_n$ be a convergent sequence in $\Gamma_{BR}$.
+Let $(\sigma^\ast, r^\ast) := \lim_{n\to\infty}(\sigma^n, r^n)$ be it's limit. 
+We have to show that the limit also lies in $\Gamma_{BR}$.
+Notice the following facts:
+\begin{itemize}
+  \item[(1)] All $U_i$ are continuous 
+  \item[(2)] Since $\Sigma$ is compact, $U_i$ are even \emph{uniformly}
+    continuous, from which it immediately follows that the function
+    $\sigma \mapsto \max_{\rho\in\Sigma_i}U_i(\sigma_{-i}, \rho)$ 
+    is also continuous.
+  \item[(3)] Instead of considering the ill-behaved and discontinuous 
+    $\argmax$ function, we can focus on the $\max$ function, since it holds:
+    \[
+      r_i \in BR_i(\sigma) \quad \Leftrightarrow \quad 
+      U_i(\sigma_{-i}, r_i) = \max_{\rho\in\Sigma_i} U_i(\sigma_{-i}, \rho).
+    \]
+\end{itemize}
+Using all this, we compute:
+\[
+  \begin{array}{ccl}
+  U_i(\sigma^\ast_{-i}, r^\ast_i) 
+    &\overset{\textrm{def } \sigma^\ast, r^\ast}= &
+    U_i\rPar{\lim_{n\to\infty}(\sigma^n_{-i}, r^n_i)} \\
+    &\overset{(1)}= &
+    \lim_{n\to\infty}U_i(\sigma^n_{-i}, r^n_i) \\
+    &\overset{\textrm{def } \Gamma_{BR}}= &
+    \lim_{n\to\infty}\max_{\rho\in\Sigma_i}U_i(\sigma^n_{-i}, \rho) \\
+    &\overset{(2)}= &
+    \max_{\rho\in\Sigma_i}U_i\rPar{\lim_{n\to\infty}\sigma^n_{-i}, \rho} \\
+    &\overset{\textrm{def } \sigma^\ast}= &
+    \max_{\rho\in\Sigma_i}U_i(\sigma^\ast_{-i}, \rho).
+  \end{array}
+\]
+This is by (3) equivalent to $r^\ast_i\in BR_i(\sigma^\ast)$. Since this 
+holds for all $i=1,\dots,n$, we conclude that 
+$(\sigma^\ast, r^\ast) \in \Gamma_{BR}$. Since this holds for all convergent
+series, the graph $\Gamma_{BR}$ is closed.
+
+\noindent {\bf d)} From the fixed point theorem of Kakutani it now follows 
+that there must be a fixed point $\sigma^\dagger\in\Sigma$ such that 
+\[
+  \sigma^\dagger \in BR(\sigma^\dagger),
+\]
+which is by definition the same as to say that for all players $i$ and 
+all other possible responses $r_i \in \Sigma_i$ it holds:
+\[
+   U_i(\sigma^\dagger) \geq U_i(\sigma^\dagger_{-i}, r_i),
+\]
+that is: for all players there is no profitable deviation from the strategy 
+$\sigma^\dagger_i$, this is exactly the definition of a Nash-Equilibrium.
+\hfill \qed
+
+\exercise{5.2}{Evolutionary Stable States}
+Consider the following symmetric game:
+\[
+  \mat{ccc}{
+      & D & H \\
+    D & (2,2) & (1,3) \\
+    H & (3,1) & (7,7)
+  }
+\]
+We claim that there is only one symmetric Nash-Equilibrium, and that it is
+evolutionary stable.
+
+Let $p$ denote the probability for the pure strategy $D$, then $(1-p)$ is the 
+probability for $H$ (because of that, it is enough to specify only one 
+probability, so we denote strategies simply by a single real number from $[0,1]$).
+The utility for the first ``individual''-player is as follows (it's the same for the second ``population''-player):
+\[
+  U_i\rPar{p, p} = \mat{cc}{p & 1 - p} 
+  \mat{cc}{2 & 1 \\ 3 & 7}
+  \mat{c}{p \\ 1 - p}
+  = 5p^2 - 10 p + 7
+\]
+The first derivative of this expression disappears for $p=1$, therefore
+all the extrema lie on the boundary of the unit interval.
+It holds (not surprisingly);
+\[
+  U_i(p=0, p=0) = 7 \quad U_i(p=1, p=1) = 2,
+\]
+therefore the only local maximum is at $p=0$, this is where the single
+symmetric Nash-Equilibrium is.
+
+Now assume that we perturb the strategy $p=0$ by an $\epsilon>0$ and
+obtain a strategy $\epsilon \equiv (\epsilon, 1-\epsilon)$.
+For any other strategy $q\in[0,1]$ it holds:
+\[
+  U_1(q, \epsilon) = 
+    \mat{cc}{q, 1-q}\mat{ccc}{2 & 1 \\ 3 & 7}\mat{c}{\epsilon\\1-\epsilon} =
+    5q\epsilon - 6q - 4\epsilon + 7
+\]
+The derivative by $d/dq$ is $5\epsilon - 6$, therefore there are no extrema
+inside of the interval $[0, 1]$. On the boundary $\set{0, 1}$ it holds:
+\[
+  U_1(0, \epsilon) = 7 - 4\epsilon,
+  U_1(1, \epsilon) = 1 - 3\epsilon,
+\]
+the first expression is always larger than the second, therefore the
+strategy $p=0$ is always the best response to all other perturbed 
+strategies $\epsilon$. This shows that $p=p_D=0$ is an evolutionary 
+stable equilibrium.
+\end{document}

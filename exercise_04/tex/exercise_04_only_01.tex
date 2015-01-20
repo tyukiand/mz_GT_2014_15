@@ -1,0 +1,223 @@
+\documentclass{scrartcl}
+
+
+\input{./packages}
+\input{./definitions}
+\DeclareMathOperator{\argmin}{argmin}
+\DeclareMathOperator{\dist}{dist}
+\newcommand{\exercise}[2]{\vspace{1em}\noindent{\bf Exercise #1 (#2)}}
+\renewcommand{\proof}{\vspace{0.8em}\noindent{\bf Proof: }}
+
+\begin{document}
+\noindent{\footnotesize Game Theory 2014/15, Exercise 4} 
+\hfill 
+{\footnotesize \input{./currentDate.txt}}
+\newline
+{\footnotesize \input{../../NAMES.txt}}
+
+\noindent\hrulefill
+
+\emph{
+  This is an excerpt that contains only the low-level proof for 4.1 c) and d).
+  However, it would be nice if someone could provide a a rigorous proof 
+  of the same statement using the duality theorems.
+}
+
+\exercise{4.1}{Equalizing strategies}
+
+Let $N=\set{1,2}$ be a set of players, $S_1 := \set{T,M,B}$, 
+$S_2 := \set{L, C, R}$ their sets of pure strategies, and 
+$u_1,u_2: S_1\times S_2 \to \Real$ their utility functions given by the 
+following matrix:
+\[
+   \mat{cccc}{
+       & L       & C       & R \\
+    T  & (3, -3) & (-3, 3) & (0, 0) \\
+    M  & (2, -2) & (6, -6) & (4, -4) \\
+    B  & (2, -2) & (5, -5) & (6, -6).
+   }
+\]
+Let's write $U := (u_1(x, y))_{x\in S_1, y \in S_2}$.
+Since this is a zero-sum game, the analogon of the matrix $U$ for player $2$ 
+is $-U^T$.
+
+\noindent {\bf a)} We want to find a mixed strategy for player $1$ such
+that the expected gain is the same for all pure strategies of player $2$. 
+Let's denote this mixed strategy by a $S_1$-valued random variable $X_1$.
+That is, we want to show that there exists a constant $c_1\in\Real$ and 
+numbers $\P[X_1 = x]$ for $x\in S_1$ such that for all $y\in S_2$ it holds:
+\[
+  c_1 = \E[u_1(X_1,y)] = \sum_{x\in S_1} \P[X_1 = x] u_1(x, y).
+\]
+Keeping in mind that it must hold that $\sum_{x}\P[X_1 = x] = 1$, we obtain 
+the following linear equation:
+\[
+  \mat{cccc}{
+    u_1(T, L) & u_1(M, L) & u_1(B, L) & -1 \\
+    u_1(T, C) & u_1(M, C) & u_1(B, C) & -1 \\
+    u_1(T, R) & u_1(M, R) & u_1(B, R) & -1 \\
+    1         & 1         & 1         & 0
+  }
+  \mat{c} {
+    \P[X_1 = T] \\
+    \P[X_1 = M] \\
+    \P[X_1 = B] \\
+    c_1
+  }
+  =
+  \mat{c} {
+    0 \\ 0 \\ 0 \\ 1
+  },
+\]
+which we write more compactly as
+\[
+  \mat{cc}{
+    U^T & -1_{3\times 1} \\
+    1_{1\times 3} & 0
+  }
+  \mat{c}{p_1 \\ c_1} =
+  \mat{c}{0_{3\times 1} \\ 1}
+\]
+with the obvious meaning of $p_1$. This can be solved with something like
+Octave/Matlab as follows:
+\begin{lstlisting}
+U = [3,-3,0;2,6,4; 2,5,6];
+o = [1;1;1];
+first = [U',-o;o',0];
+second = [-U, -o;o',0];
+rhs = [0;0;0;1];
+% The result for part a)
+disp(first \ rhs);
+% The result for part b)
+disp(second \ rhs);
+\end{lstlisting}
+The result is:
+\[
+  p_1^T = \mat{ccc}{0.4 & 0.6 & 0} \qquad c_1 = 2.4.
+\]
+
+\noindent {\bf b)} A completely symmetric derivation for player 2 
+leads to the equation
+\[
+  \mat{cc}{
+    -U & -1_{3\times 1} \\
+    1_{1\times 3} & 0
+  }
+  \mat{c}{p_2 \\ c_2} = 
+  \mat{c}{0_{3\times 1} \\ 1}
+\]
+with the solution 
+\[
+  p_2^T = \mat{ccc}{0.88 & 0.08 & 0.04} \qquad c_2 = -2.4.
+\]
+
+\noindent {\bf c) } We want to show that the equalizing strategies 
+$X_1$ and $X_2$ (with the properties and probabilities as above) 
+are optimal for both players.
+
+First, notice the following property (resulting from what has been called
+``multilinearity'' in the lecture). If $Y_2$ is some mixed strategy of the
+second player, then it holds:
+\[
+  \E[u_1(X_1, Y_2)] = \sum_{y\in S_2}\P[Y_2 = y]\E[u_1(X_1,y)]
+  = \sum_{y\in S_2}\P[Y_2 = y]c_1 = c_1.
+\]
+In particular, we obtain just the constant $c_1$ if we minimize over all
+possible mixed strategies of player $2$:
+\[
+  \min_{Y_2} \E[u_1(X_1, Y_2)] = c_1.
+\]
+A symmetric statement holds for $c_2$. This allows us to make estimations for
+Maxmin-values for both players. Here are two inequalities for Maxmin-values of
+player $1$:
+\begin{align*}
+  \max_{Y_1} \min_{Y_2} \E[u_1(Y_1, Y_2)] 
+    &\geq \min_{Y_2} \E[u_1(X_1, Y_2)] = \min_{Y_2} c_1 = c_1 \\
+  \max_{Y_1}\min_{Y_2}\E[u_1(Y_1, Y_2)] 
+    &= \max_{Y_1} \min_{Y_2} \E[-u_2(Y_1, Y_2)] \\
+    &\leq \max_{Y_1} \E[-u_2(Y_1, X_2)] \\
+    & = \max_{Y_1}(-c_2) \\
+    & = -c_2
+\end{align*}
+In particular, if we have the situation that $c_2 = -c_1$, these two 
+inequalities combine into a single equality:
+\[
+  \max_{Y_1} \min_{Y_2} \E[u_1(Y_1, Y_2)] = c_1.
+\]
+Exchanging the indices $1$ and $2$ yields a completely symmetric result for
+player $2$. 
+
+In parts a) and b) we have found out that for the concrete example we have
+$c_1 = -c_2 = 2.4$, so we can conclude that the Maxmin-value for player $1$ is
+$2.4$ and the Maxmin-value for player $2$ is $-2.4$, which by definition makes
+the equalizing strategies $X_1$ and $X_2$ \emph{optimal}.
+
+\noindent {\bf d)} Now we want to consider a two-player zero-sum game where 
+the players $1$ and $2$ have more possible actions. We want to show that if 
+both players have equalizing strategies, these strategies are optimal.
+
+Suppose $S_1 = \set{1\dots n}$ and $S_2 = \set{1 \dots m}$ for some natural 
+numbers $n,m$. Let $U$ be a $n\times m$ matrix defined as above.
+Suppose there are equalizing strategies $X_1$ and $X_2$, that is, 
+there exist probability vectors $p_1\in \Real^n$ and $p_2\in\Real^m$ such that
+the following holds:
+\[
+  \mat{cc}{
+    U^T & -1_{m\times 1} \\
+    1_{1\times n} & 0
+  }
+  \mat{c}{p_1 \\ c_1} =
+  \mat{c}{0_{m\times 1} \\ 1}
+\]
+\qquad
+\[
+  \mat{cc}{
+    -U & -1_{n\times 1} \\
+    1_{1\times m} & 0
+  }
+  \mat{c}{p_2 \\ c_2} =
+  \mat{c}{0_{n\times 1} \\ 1}.
+\]
+In c) we have shown that it is sufficient to establish $c_2 = -c_1$ in order 
+to prove the optimality (the argument did not depend on the dimension of
+the matrix $U$ in any way). It holds:
+\begin{align*}
+c_2 &= \mat{cc}{p_2^T & c_2} \mat{c}{0_{m\times 1} \\ 1} \\
+    &= \mat{cc}{p_2^T & c_2} \mat{cc}{
+      U^T & -1_{m\times 1} \\ 1_{1\times n} & 0
+    } \mat{c}{p_1 \\ c_1} \\
+    &= -\rPar{
+      \mat{cc}{-U & -1_{n\times 1} \\ 1_{1\times m} & 0}
+      \mat{c}{p_2 \\ c_2}
+    }^T \mat{c}{p_1 \\ c_1} \\
+    &= - \mat{cc}{0_{1\times n} & 1} \mat{c}{p_1 \\ c_1} \\
+    &= - c_1
+\end{align*}
+Hence, the equalizing strategies are optimal. \hfill \qed
+
+\noindent {\bf e)} Finally, we want to consider a counterexample.
+Consider the following two-player zero-sum game:
+\[
+  \mat{ccc}{
+       & L        & R \\
+     T & (1, -1)  & (1, -1) \\
+     B & (-1, 1)  & (-1, 1)
+  }
+\]
+Here, the first player has an equalizing strategy with 
+$p_1 = \mat{cc}{0.5 & 0.5}^T$. With this strategy, 
+the first player would on average win nothing, 
+no matter what the strategy of the second player is.
+
+However, the optimal strategy would obviously be the pure strategy $T$.
+Since the decision of the second player can not affect the outcome in any way, 
+he can take either $L$ or $R$ as optimal strategy. The value of the game is 
+therefore $(1, -1)$, and not $0$, if both play rationally, the first player 
+wins $(+1)$ and the second loses $(-1)$.
+
+However, this is not a contradiction to d), because here the second player 
+does not have an equalizing strategy: no matter how he weights $L$ and $R$, 
+the outcome in the row $T$ is always $(-1)$, 
+the outcome in the row $B$ is always $(+1)$, and $(-1) \neq (+1)$.
+
+\end{document}
