@@ -3,6 +3,7 @@
 \input{./packages}
 \input{./definitions}
 \newcommand{\exercise}[2]{\vspace{1em}\noindent{\bf Exercise #1 (#2)}}
+\newcommand{\subexercise}[1]{\vspace{0.8em}\noindent{\bf #1)}}
 \renewcommand{\proof}{\vspace{0.8em}\noindent{\bf Proof: }}
 
 \begin{document}
@@ -14,107 +15,159 @@
 
 \noindent\hrulefill
 
-\exercise{1.1}{Text with a bunch of funny formulas}
+\exercise{10.1}{Always-Defect and Tit-for-Tat}
 
-Let $a\in\Real^3$ arbitrary, and let $[a]_\cross$ denote the matrix that
-corresponds to the cross product with $a$ from the left:
+\subexercise{a}
+Die Strategie $C$ wird von $D$ strikt dominiert. Das heißt, es ist für jeden der Spieler (egal
+welche gemischte Strategie gerade von ihm gespielt wird) rational, mehr $D$ zu spielen als er es gerade
+tut (falls er nicht eh schon die reine Strategie $D$ spielt). \\
+
+Es kann also außer \textsl{always defect} kein anderes Nash-Gleichgewicht geben, da einer der
+Spieler seiner Nutzen immer erhöhen kann. Soweit für das einfache Spiel. \\
+
+Im endlich oft iterierten Spiel nehmen wir nun an, es gebe ein Nash-Gleichgewicht, welches nicht
+\textsl{always defect} sei. Da die Spieler wissen, welches die letzte Iteration ist, können sie
+in dieser Iteration $D$ spielen, da sie nicht vom anderen dafür "`bestraft"' werden können. Daher
+kann diese Strategie kein Nash-Gleichgewicht sein, da es sich für jeden der Spieler lohnnt,
+abzuweichen. \\
+
+\subexercise{b}
+Da $AD^t_I = AD^t_{II} = D$ für alle $t$, folgt, dass:
 \[
-  [a]_\cross := \mat{ccc}{
-    0    & -a_3 & a_1 \\
-    a_3  & 0    & -a_2 \\
-    -a_1 & a_2  & 0
-  }.
+\lim_{T \to \infty} \frac{1}{T} \sum_{t=1}^{T} U(AD^t_I, AD^t_{II}) = \lim_{T \to \infty}
+\frac{1}{T} \sum_{t=1}^{T} U(D, D) = \lim_{T \to \infty} \frac{1}{T} \sum_{t=1}^{T} 1
 \]
-It then holds: 
 \[
-  \exp([a]_\cross) = R_{\frac{a}{\norm{a}}}{\norm{a}},
+= \lim_{T \to \infty} \frac{1}{T} \cdot T = \lim_{T \to \infty} 1 = 1
 \]
-where $R_{z,\phi}$ is the rotation matrix
-around the axis $z$ by the angle $\phi$.
 
-\proof Observe that all powers of $[a]_\cross$ can be 
-expressed in terms of $[a]_\cross$ and $[a]_\cross^2$, 
-more precisely, it holds (by the Grassmann-Identity):
-\begin{align*}
-  [a]_\cross^2 &= aa^T - \norm{a}^2I  \\
-  [a]_\cross^3 &= -\norm{a}^2[a]_\cross.
-\end{align*}
-Iteration gives us explicit formulas for all nonnegative powers:
+Weicht ein Spieler ab, so erhält er einen Nutzen von 0, der Gegner einen Nutzen von 4 in dieser
+Iteration. Er kann nun weiter $C$ spielen und 0 erhalten, oder zurückkehren zu $D$ und wieder 1
+bekommen, aber nicht mehr als 1 pro Durchgang. 
+
+\subexercise{c}
+Im Gegensatz zu a) wäre im unendlich oft iterierten Spiel \textsl{always cooperate} ein Nash-
+Gleichgewicht (Darauf läuft es hinaus, wenn beide Spieler \textsl{tit for tat} spielen und keiner
+von $C$ abweicht)$^1$. Das Abweichen und der einmalige Gewinn von 4 zahlen sich über lange Sicht
+nicht aus:
+
+I weicht von $C$ ab und spielt $D$, während II noch $C$ spielt. In der nächsten Runde spielt
+nun I $C$ (was II zuvor gespielt hat) und II spielt $D$ (was I zuvor gespielt hat). Dies
+wiederholt sich offensichtlich von diesem Zeitpunkt an. Damit hat mal Spieler I einen Nutzen von
+4, II einen Nutzen von 0, mal umgekehrt. Im Schnitt kommt jeder Spieler also auf einen Nutzen
+von 2. Im unendlich oft wiederholten Spiel wäre der durchschnittliche Nutzen für jeden Spieler
+also 2. \\
+
+Tit for Tat ohne Abweichung: \\
+
 \[
-  [a]_\cross^k = \begin{cases}
-    I & \textrm{ for } k = 0 \\
-    \rPar{(-1)\norm{a}^2}^\frac{k-1}{2}[a]_\cross & \textrm{ for } k \textrm{ odd} \\
-    \rPar{-\norm{a}^2}^{\frac{k}{2} - 1}[a]_\cross^2 & 
-      \textrm{ for } k \textrm{ even and positive }
-  \end{cases}.
+\lim_{T \to \infty} \frac{1}{T} \sum_{t=1}^{T} U(TFT^t_I, TFT^t_{II}) \overset{1}= \lim_{T \to \infty} 
+\frac{1}{T} \sum_{t=1}^{T} U(C, C) = \lim_{T \to \infty} \frac{1}{T} \sum_{t=1}^{T} 3 = 3
 \]
-Now we start with the series for $\exp$, sort all the terms by 
-their matrix-component, and compare the resulting series with $\sin$ and $\cos$:
-\begin{align*}
-  \exp([a]_\cross) 
-    &= \sum_{k=0}^\infty \frac{[a]_\cross^k}{k!}\\
-    &= I + \rPar{
-         \sum_{k = 1, k \textrm{ odd}}^\infty
-         \frac{(-1)^{\frac{k-1}{2}}\norm{a}^{k}}{k!}
-       }\sPar{\frac{a}{\norm{a}}}_\cross
-       + 
-      \rPar{
-        \sum_{k = 2, k \textrm{ even}}^\infty
-        \frac{-(-1)^\frac{k}{2}\norm{a}^k}{k!}
-      }\sPar{\frac{a}{\norm{a}}}_\cross^2 \\
-     &= I + \sin(\norm{a})\sPar{\frac{a}{\norm{a}}}_\cross + 
-        (1 - \cos(\norm{a}))\sPar{\frac{a}{\norm{a}}}_\cross^2.
-\end{align*}
-We have already shown that the last expression is exactly the 
-rotation matrix $R_{\frac{a}{\norm{a}}}{\norm{a}}$, 
-this concludes the proof.  \hfill\qed
 
-\exercise{1.2}{A funny image}
-Here you can see an example of an image.
+Tit for Tat mit Abweichung von Spieler I in Iteration $k$, Nutzen für I: \\
 
-% \begin{figure}[htbp]
-%   \centering\includegraphics[width=0.5\linewidth]{images/exampleImage.png}
-% \end{figure}
-And here is some more text:
-\begin{align*}
-  [a]_\cross^2 &= aa^T - \norm{a}^2I  \\
-  [a]_\cross^3 &= -\norm{a}^2[a]_\cross.
-\end{align*}
-Iteration gives us similar expressions for all positive powers:
 \[
-  [a]_\cross^k = \begin{cases}
-    I & \textrm{ for } k = 0 \\
-    \rPar{(-1)\norm{a}^2}^\frac{k-1}{2}[a]_\cross & \textrm{ for } k \textrm{ odd} \\
-    \rPar{-\norm{a}^2}^{\frac{k}{2} - 1}[a]_\cross^2 & 
-      \textrm{ for } k \textrm{ even and positive }
-  \end{cases}.
+\lim_{T \to \infty} \frac{1}{T} \sum_{t=1}^{k-1} U_I(C, C) + \sum_{t = k+1}^{T}
+U_I(TFT'^t_I, TFT'^t_{II}) = \lim_{T \to \infty} \frac{1}{T} ( 3 \cdot k + \sum_{t = k+1}^{T}
+2)
 \]
-Now we start with the series for $\exp$, sort all the terms by 
-their matrix-component, and compare the resulting series with $\sin$ and $\cos$:
-\begin{align*}
-  \exp([a]_\cross) 
-    &= \sum_{k=0}^\infty \frac{[a]_\cross^k}{k!}\\
-    &= I + \rPar{
-         \sum_{k = 1, k \textrm{ odd}}^\infty
-         \frac{(-1)^{\frac{k-1}{2}}\norm{a}^{k}}{k!}
-       }\sPar{\frac{a}{\norm{a}}}_\cross
-       + 
-      \rPar{
-        \sum_{k = 2, k \textrm{ even}}^\infty
-        \frac{-(-1)^\frac{k}{2}\norm{a}^k}{k!}
-      }\sPar{\frac{a}{\norm{a}}}_\cross^2 \\
-     &= I + \sin(\norm{a})\sPar{\frac{a}{\norm{a}}}_\cross + 
-        (1 - \cos(\norm{a}))\sPar{\frac{a}{\norm{a}}}_\cross^2.
-\end{align*}
-Blah blah blah...
+\[
+= \lim_{T \to \infty} \frac{1}{T} \cdot 3 \cdot k + \lim_{T \to \infty} \frac{1}{T}
+\sum_{t = k+1}^{T} 2 = 0 + \lim_{T \to \infty} \frac{1}{T} \cdot (T - k) \cdot 2 = 0 + 2 = 2
+\]
 
-\exercise{1.3}{Code-examples}
-Here is how one can include formatted code:
-\begin{lstlisting}
-  ...
-  void main(void) {
-    cout << "blah";
-  }
-\end{lstlisting}
-You might also find \verb|\lstinputlisting[firstline=n,lastline=m]| useful.
+Für Spieler II verhält sich der Grenzwert genau so. Ebenso könnte es Spieler II sein, der abweicht.
+Da der Erwartungswert (wenn keiner abweicht) höher ist, als wenn einer der Spieler abweicht, ist
+\textsl{tit for tat} ein Nash-Gleichgewicht im unendlich oft iterierten Spiel.
+
+\exercise{1.2}{Bayessian equilibria}
+Let $G$ be the random type of the game with the distribution
+\[
+  \P\sPar{G = good} = q, \qquad \P\sPar{G = bad} = (1-q)
+\]
+for $q\in(0, 1)$. Let $u_p^G(z, (x, y))$ denote the
+expected outcome for the player $p$ in the game of type $G$ 
+for strategies $z$ of player $I$ and $(x, y)$ of player $II$.
+
+\subexercise{a} 
+Let's first compute the expected outcome for player $I$ (averaged over
+both game types):
+\begin{align*}
+  \E\sPar{u_I^G(z, (x,y))} 
+    &= q u_I^{good}(z,(x,y)) + (1-q) u_I^{bad}(z, (x, y)) \\
+    &= 3qzx + (1-q) zy.
+\end{align*}
+The partial derivative w.r.t. $z$ is as follows:
+\begin{align*}
+  \dd{}{z}\E\sPar{u_I^G(z, (x,y))} = 3xq + (1-q)y
+\end{align*}
+First, we investigate the boundary of $[0,1]$, and search 
+Nash equilibria for $z\in\set{0, 1}$.
+First, suppose $z=1$. 
+The only best response by the player $II$ is $(x, y) = (0,1)$.
+The derivative w.r.t. $z$ at $(x, y) = (0, 1)$ is:
+\begin{align*}
+  \dd{}{z}\E\sPar{u_I^G(z, (0, 1))} = (1 - q) > 0,
+\end{align*}
+therefore $(z, (x, y)) = (1, (0, 1))$ is a Nash equilibrium
+(the only Nash equilibrium for $z = 1$).
+
+Now, suppose $z=0$.
+In both games ($good$ or $bad$) it's irrelevant for the player $II$
+whether he plays $sell$ or $\neg sell$, all $(x,y) \in [0,1]^2$
+are best responses to $z=0$. For the derivative w.r.t. $z$ it holds:
+\begin{align*}
+  \dd{}{z}\E\sPar{u_I^G(0, (x, y))} \geq 0
+\end{align*}
+with equality at $(x, y) = (0,0)$. If $(0, (x,y))$ is a Nash equilibrium,
+the derivative w.r.t. $z$ has to be $\leq 0$ 
+(otherwise $I$ can get better outcome by increasing $z$), 
+therefore $(0, (0, 0))$ is the only Nash equilibrium
+at $z=0$.
+
+\subexercise{b}
+Now we investigate the existence of Nash equilibria for $z\in(0, 1)$.
+If $(z, (x, y))$ is a Nash equilibrium, the derivative of the
+expected outcome for player $I$ w.r.t. $z$ has to be exactly $0$, that
+is:
+\[
+  0 \overset{!}= \dd{}{z}\E\sPar{u_I^G(z, (x, y))} = 3xq + (1-q)y,
+\]
+this implies (since all coefficients are nonnegative):
+\[
+  (x, y) = (0, 0).
+\]
+Intuitively that means: player $I$ is indifferent only if $II$ does not
+sell anything, otherwise $I$ tends to buy the car regardless of it's 
+quality.
+
+Now we have to consider $u_{II}$ and check whether $(0, 0)$ is a best
+response for some $z\in(0, 1)$. First, consider the $good$ game.
+It holds:
+\begin{align*}
+  u_{II}^{good}(z, (x, y)) &\equiv u_{II}^{good}(z, x) = 3zx + 5 (1-zx) \\
+  \dd{}{x} u_{II}^{good}(z, x) &= -2z < 0,
+\end{align*}
+therefore the gain of $II$ decreases as $x$ increases, so that $x=0$ is the
+only best response for all $z\in (0, 1)$.
+
+Similarly, for the $bad$ game it holds:
+\begin{align*}
+  u_{II}^{bad}(z, (x, y)) &= u_{II}^{bad}(z, y) = 3zy \\
+  \dd{}{y} u_{II}^{bad}(z, y) &= 3z > 0,
+\end{align*}
+therefore the gain of $II$ increases as $y$ increases, so that $y=1$ is
+the only best response for all $z\in (0, 1)$.
+
+Now we sum it up: 
+if $(z, (x, y))$ is an equilibrium for some $z\in(0,1)$,
+then it has to hold: 
+\[
+  (x,y) \in \set{(0, 0)} \cap \set{(0, 1)} = \emptyset,
+\]
+that means that there are no equilibria for $z\in (0, 1)$.
+
+Together with a) that means that the set of all equilibria is 
+$\set{(0,(0,0)),(1,(0,1))}$. \hfill \qed
 \end{document}
