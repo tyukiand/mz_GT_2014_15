@@ -1,0 +1,98 @@
+\documentclass{scrartcl}
+ 
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[pdftex]{graphicx}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{amsfonts}
+\usepackage{tabto}
+\usepackage{mathtools}
+\TabPositions{0.1in, 0.4in, 0.6in, 0.8in, 1.0in, 1.2in, 3.4in}
+
+\begin{document}
+\begin{LARGE}
+Spieltheorie - WiSe 2014/15
+\end{LARGE}
+
+\begin{Large}
+Übungsblatt 10 - Felix Dosch\\[1.0cm]
+\end{Large}
+
+\begin{Large}
+Aufgabe 10.1\\[0.0cm]
+\end{Large}
+
+a) \\
+
+Die Strategie $C$ wird von $D$ strikt dominiert. Das heißt, es ist für jeden der Spieler (egal
+welche gemischte Strategie gerade von ihm gespielt wird) rational, mehr $D$ zu spielen als er es gerade
+tut (falls er nicht eh schon die reine Strategie $D$ spielt. \\
+
+Es kann also außer \textsl{always defect} kein anderes Nash-Gleichgewicht geben, da einer der
+Spieler seiner Nutzen immer erhöhen kann. Soweit für das einfache Spiel. \\
+
+Im endlich oft iterierten Spiel nehmen wir nun an, es gebe ein Nash-Gleichgewicht, welches nicht
+\textsl{always defect} sei. Da die Spieler wissen, welches die letzte Iteration ist, können sie
+in dieser Iteration $D$ spielen, da sie nicht vom anderen dafür "`bestraft"' werden können. Daher
+kann diese Strategie kein Nash-Gleichgewicht sein, da es sich für jeden der Spieler lohnnt,
+abzuweichen. \\
+
+b) \\
+
+Da $AD^t_I = AD^t_{II} = D$ für alle $t$, folgt, dass: \\
+
+\[
+\lim_{T \to \infty} \frac{1}{T} \sum_{t=1}^{T} U(AD^t_I, AD^t_{II}) = \lim_{T \to \infty}
+\frac{1}{T} \sum_{t=1}^{T} U(D, D) = \lim_{T \to \infty} \frac{1}{T} \sum_{t=1}^{T} 1
+\]
+\[
+= \lim_{T \to \infty} \frac{1}{T} \cdot T = \lim_{T \to \infty} 1 = 1
+\]
+
+Weicht ein Spieler ab, so erhält er einen Nutzen von 0, der Gegner einen Nutzen von 4 in dieser
+Iteration. Er kann nun weiter $C$ spielen und 0 erhalten, oder zurückkehren zu $D$ und wieder 1
+bekommen, aber nicht mehr als 1 pro Durchgang. \\
+
+c) \\
+
+Im Gegensatz zu a) wäre im unendlich oft iterierten Spiel \textsl{always cooperate} ein Nash-
+Gleichgewicht (Darauf läuft es hinaus, wenn beide Spieler \textsl{tit for tat} spielen und keiner
+von $C$ abweicht)$^1$. Das Abweichen und der einmalige Gewinn von 4 zahlen sich über lange Sicht
+nicht aus:
+
+I weicht von $C$ ab und spielt $D$, während II noch $C$ spielt. In der nächsten Runde spielt
+nun I $C$ (was II zuvor gespielt hat) und II spielt $D$ (was I zuvor gespielt hat). Dies
+wiederholt sich offensichtlich von diesem Zeitpunkt an. Damit hat mal Spieler I einen Nutzen von
+4, II einen Nutzen von 0, mal umgekehrt. Im Schnitt kommt jeder Spieler also auf einen Nutzen
+von 2. Im unendlich oft wiederholten Spiel wäre der durchschnittliche Nutzen für jeden Spieler
+also 2. \\
+
+Tit for Tat ohne Abweichung: \\
+
+\[
+\lim_{T \to \infty} \frac{1}{T} \sum_{t=1}^{T} U(TFT^t_I, TFT^t_{II}) \overset{1}= \lim_{T \to \infty} 
+\frac{1}{T} \sum_{t=1}^{T} U(C, C) = \lim_{T \to \infty} \frac{1}{T} \sum_{t=1}^{T} 3 = 3
+\]
+
+Tit for Tat mit Abweichung von Spieler I in Iteration $k$, Nutzen für I: \\
+
+\[
+\lim_{T \to \infty} \frac{1}{T} \sum_{t=1}^{k-1} U_I(C, C) + \sum_{t = k+1}^{T}
+U_I(TFT'^t_I, TFT'^t_{II}) = \lim_{T \to \infty} \frac{1}{T} ( 3 \cdot k + \sum_{t = k+1}^{T}
+2)
+\]
+\[
+= \lim_{T \to \infty} \frac{1}{T} \cdot 3 \cdot k + \lim_{T \to \infty} \frac{1}{T}
+\sum_{t = k+1}^{T} 2 = 0 + \lim_{T \to \infty} \frac{1}{T} \cdot (T - k) \cdot 2 = 0 + 2 = 2
+\]
+
+Für Spieler II verhält sich der Grenzwert genau so. Ebenso könnte es Spieler II sein, der abweicht.
+Da der Erwartungswert (wenn keiner abweicht) höher ist, als wenn einer der Spieler abweicht, ist
+\textsl{tit for tat} ein Nash-Gleichgewicht im unendlich oft iterierten Spiel.
+
+\end{document}

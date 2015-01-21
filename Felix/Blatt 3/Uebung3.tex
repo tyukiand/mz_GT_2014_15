@@ -1,0 +1,209 @@
+\documentclass{scrartcl}
+ 
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[pdftex]{graphicx}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{amsfonts}
+\usepackage{tabto}
+\TabPositions{0.1in, 0.4in, 0.6in, 0.8in, 1.0in, 1.2in, 3.4in}
+
+\begin{document}
+\begin{LARGE}
+Spieltheorie - WiSe 2014/15
+\end{LARGE}
+
+\begin{Large}
+Übungsblatt 3 - Felix Dosch, Julian Felix Rost\\[1.0cm]
+\end{Large}
+
+\begin{Large}
+Aufgabe 3.2\\[0.0cm]
+\end{Large}
+
+Zu zeigen: Eine strikt dominierte Strategie ist niemals Teil eines Nash-Gleichgewichts. \\
+
+Beweis durch Widerspruch: O.B.d.A. betrachten wir Strategien für Spieler I. Sei $s_I$
+eine strikt dominierte Strategie. Das heißt, $\exists t_I \in S_I$ mit
+
+\begin{align}
+u_I(s_I,s_{-I}) < u_I(t_I,s_{-I}) \quad \text{für alle } s_{-I} \in S_{-I}
+\end{align}
+
+Annahme: $s_I$ ist Teil eines Nash-Gleichgewichts, das heißt
+
+\[
+\exists s^*_{-I} \in S_{-I} : u_I(s_I,s^*_{-I}) \geq u_I(s'_I,s^*_{-I}) \quad 
+\text{für alle } s'_I \in S_I
+\]
+
+Jedoch (1):
+
+\[
+\exists t_I \in S_I : u_I(s_I,s^*_{-I}) \ngeq u_I(t_I,s^*_{-I})
+\]
+
+Dies steht in Widerspruch zur Annahme, dass $s_I$ Teil eines Nash-Gleichgewichtes ist. \\
+
+\begin{Large}
+Aufgabe 3.3\\[0.0cm]
+\end{Large}
+
+Wir betrachten das folgende Spiel in Strategieform: \\
+
+\begin{tabularx}{0.7\textwidth} {|X|X|X|X|}
+\hline
+$\downarrow$ I / II $\rightarrow$	& $A$		& $B$		& $C$	\\
+\hline
+$a$									& (10,4)	& (7,7)		& (0,24)\\
+\hline
+$b$									& (9,8)		& (4,11)	& (10,10)\\
+\hline
+$c$									& (6,2)		& (3,9)		& \textbf{(10,10)}\\
+\hline
+\end{tabularx} \\
+
+\textbf{Nash-Gleichgewicht: }Der Strategievektor $s^* = ((c),(C))$ ist das einzige Nash-Gleichgewicht 
+in diesem Spiel. Für Spieler II lohnt es sich nicht, seine Strategie zu ändern (sein Nutzen würde auf
+9, bzw. 2 reduziert). Für Spieler I lohnt es sich ebenfalls nicht (seine Nutzen würde gleich bleiben
+oder auf 0 sinken).
+
+Der Strategievektor $((b), (C))$ ist kein Nash-Gleichgewicht, obwohl er für beide Spieler den gleichen
+Nutzen hat wie $s^*$. Jedoch könnte hier II mit einem Wechsel zu Strategie $(B)$ seinen Nutzen
+verbessern. \\
+
+\textbf{Iterative Eliminierung schwach dominierter Strategien: }
+
+\begin{itemize}
+\item{Spieler I kann Strategie $(c)$ eliminieren, da diese von $(b)$ schwach dominiert wird (9 > 6,
+4 > 3, 10 = 10). Damit verschwindet das ursprüngliche Nash-Gleichgewicht.}
+\item{Spieler II kann Strategie $(A)$ eliminieren, da diese von $(B)$ sogar strikt (und damit natürlich
+auch schwach) dominiert wird (7 > 4, 11 > 8).}
+\end{itemize}
+
+Es verbleibt das folgende Spiel: \\
+
+\begin{tabularx}{0.5\textwidth} {|X|X|X|}
+\hline
+$\downarrow$ I / II $\rightarrow$	& $B$		& $C$	\\
+\hline
+$a$									& (7,7)		& (0,24)\\
+\hline
+$b$									& (4,11)	& (10,10)\\
+\hline
+\end{tabularx} \\
+
+Dieses Spiel besitzt kein Nash-Gleichgewicht. Die Strategien können im Uhrzeigersinn gewechselt werden,
+wobei sich für den wechselnden Spieler ein Vorteil ergibt. \\
+
+\begin{Large}
+Aufgabe 3.4\\[0.0cm]
+\end{Large}
+
+a) Da sich der Gewinn für Spieler $i$ wie in der Vorlesung berechnet (falls $i$ den Gegenstand
+bekommt aus der Differenz des Gegenstandswertes für den Spieler $v_i$ und seinem Gebot $b_i$,
+ansonsten 0) ergibt sich für den Spieler $i$ beim Spielen der Strategie $b_i = v_i$ immer ein Gewinn 
+von 0.
+
+Entweder ersteigert er den Gegenstand nicht, oder er muss genau $b_i$ dafür bezahlen, womit er auch
+einen Gewinn von 0 hat. \\
+
+Allerdings dominiert $b_i = v_i$ nicht alle anderen Strategien schwach, denn: \\
+
+Bietet $i$ nicht $v_i$ sondern einen kleineren Wert $b_i = v_i^*$ mit $0 < v_i^* < v_i$, so ergibt
+sich für den Fall, dass alle anderen Spieler ein Gebot abgeben, welches kleiner als $v_i^*$ ist ein
+Gewinn von $v_i - v_i^* > 0$. \\
+
+b) siehe Aufgabe a). \\
+
+\begin{Large}
+Aufgabe 3.5\\[0.0cm]
+\end{Large}
+
+a) Zu zeigen: \\
+\[
+\min_{a \in A} \max_{b \in B} u(a,b) \geq \max_{b \in B} \min_{a \in A} u(a,b)
+\]
+Dazu zeigen wir zunächst folgendes:
+\[
+\max_{b \in B} u(x,b) \geq u(x,y) \geq \min_{a \in A} u(a,y) \quad \text{mit }  x \in A, y \in B
+\]
+
+Die erste Ungleichung gilt, da der Nutzen für festes $x$ mit $b$ maximiert wird, d.h. $u(x,y)$ kann
+für freies $y$ höchstens so groß werden, wie für $y = b$. Bei der zweiten Ungleichung ist das
+symmetrisch für festes $y$ und freies $x$ der Fall. \\
+
+Daher:
+
+\[
+\max_{b \in B} u(x,b) \geq \min_{a \in A} u(a,y)
+\]
+\[
+\Leftrightarrow \min_{a \in A} \max_{b \in B} u(a,b) \geq \min_{a \in A} u(a,y)
+\]
+\[
+\Leftrightarrow \min_{a \in A} \max_{b \in B} u(a,b) \geq \max_{b \in B} \min_{a \in A} u(a,b).
+\]
+
+Die Ausdrücke sind wohldefiniert, da z.B. $\min_{a \in A} u(a,\_)$ die Menge aller $u \in \mathbb{R}$
+liefert, die mögliche Ergebnisse bei Wahl von $a$ beinhaltet, wovon durch $\max_{b \in B} \ldots$
+das Maximum, also ein Wert $\in \mathbb{R}$ definiert wird. Die Relation $\geq$ ist auf
+$\mathbb{R}$ definiert. \\
+
+b) Zu zeigen: In einem Nullsummenspiel für zwei Spieler gilt:
+
+\[
+\min_{s_I \in S_I} \max_{s_{II} \in S_{II}} u_{II}(s_I,s_{II}) = - \max_{s_I \in S_I} \min_{s_{II} 
+\in S_{II}} u_I(s_I,s_{II})
+\]
+
+Dazu benutzen wir die Definition des Nullsummenspiels für 2 Spieler:
+
+\[
+\min_{s_I \in S_I} \max_{s_{II} \in S_{II}} u_{II}(s_I,s_{II}) = \min_{s_I \in S_I} \max_{s_{II} 
+\in S_{II}} - u_{I}(s_I,s_{II})
+\]
+\[
+= \min_{s_I \in S_I} ( -\min_{s_{II} \in S_{II}} u_{I}(s_I,s_{II}))
+\]
+\[
+= - \max_{s_I \in S_I} \min_{s_{II} \in S_{II}} u_{I}(s_I,s_{II}).
+\] \\
+
+c) Ein Nullsummen-Spiel, für welches die Gleichung gilt, ist einfach anzugeben, da auf beiden
+Seiten der Gleichung der Gewinn von Spieler II maximiert wird, dabei ist die Reihenfolge
+egal. Wir geben $u_I(s_I,s_{II})$ an. Dabei ist nur darauf zu achten, dass der erreichte Gewinn
+für beide gleich ist, d.h. wenn alle anderen Werte der Tabelle größer sind als $x$, dann ist
+$x$ der Wert, der jeweils für die Ausdrücke links und rechts der Gleichung heraus kommt. Um die
+Gleichung zu erfüllen muss dieser 0 sein: \\
+
+\begin{tabularx}{0.5\textwidth} {|X|X|X|}
+\hline
+$\downarrow$ I / II $\rightarrow$	& $A$		& $B$	\\
+\hline
+$a$									& 0		& 	2\\
+\hline
+$b$									& 2		& 	4\\
+\hline
+\end{tabularx} \\
+
+Nun ist es nicht schwer, das Spiel so zu ändern, dass die Gleichung nicht mehr stimmt:
+
+\begin{tabularx}{0.5\textwidth} {|X|X|X|}
+\hline
+$\downarrow$ I / II $\rightarrow$	& $A$		& $B$	\\
+\hline
+$a$									& \textbf{1}		& 	2\\
+\hline
+$b$									& 2		& 	4\\
+\hline
+\end{tabularx} \\
+
+
+\end{document}
+

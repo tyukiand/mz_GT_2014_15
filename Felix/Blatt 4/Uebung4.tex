@@ -1,0 +1,197 @@
+\documentclass{scrartcl}
+ 
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[pdftex]{graphicx}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{amsfonts}
+\usepackage{tabto}
+\usepackage{mathtools}
+\TabPositions{0.1in, 0.4in, 0.6in, 0.8in, 1.0in, 1.2in, 3.4in}
+
+\begin{document}
+\begin{LARGE}
+Spieltheorie - WiSe 2014/15
+\end{LARGE}
+
+\begin{Large}
+Übungsblatt 4 - Felix Dosch, Julian Felix Rost\\[1.0cm]
+\end{Large}
+
+\begin{Large}
+Aufgabe 4.1\\[0.0cm]
+\end{Large}
+
+a) Wir suchen eine Wahrscheinlichkeitsverteilung 
+
+\[
+\sigma_I = \sum_{s_I \in S_I} p(s_I) = p(T) + p(M) + p(B) = 1
+\]
+
+, sodass für jede reine Strategie von Spieler II Spieler I den gleichen erwarteten Gewinn
+hat. Sei im folgenden $a = p(T), b = p(M), c = p(B)$. Dann ergeben sich folgende erwartete
+Gewinne für Spieler I: \\
+
+Spieler II spielt L : $\quad 3a + 2b + 2c$
+
+Spieler II spielt C : $\quad -3a + 6b + 5c$
+
+Spieler II spielt R : $\quad 0a + 4b + 6c$ \\
+
+Aus den Bedingungen der Gleichheit und der zusätzlichen Bedingung $a+b+c = 1$ lässt sich ein
+lineares Gleichungssystem mit 3 linear unabhängigen Gleichungen und 3 Variablen aufstellen,
+welches eine eindeutige Lösung besitzt:
+
+\[
+3a + 2b + 2c = -3a + 6b + 5c
+\]
+\[
+\Leftrightarrow 6a - 4b - 3c = 0 \quad (A)
+\]
+
+\[
+-3a + 6b + 5c = 4b + 6c
+\]
+\[
+\Leftrightarrow -3a + 2b - c = 0 \quad (B)
+\]
+
+\[
+a + b + c = 1 \quad (C)
+\]
+
+\[
+\begin{matrix*}[r]
+  (A) & 6a & -&4b & -&3c & = & 0 \\
+  (B) & -3a & +&2b & -&c & = & 0 \\
+  (C) & a & +&b & +&c & = & 1 \\
+\end{matrix*}
+\] \[ \cdots \] \[
+\begin{matrix*}[r]
+  (A) & 25a & & & & & = & 10 \\
+  (B) & -2a & +&3b & & & = & 1 \\
+  (C) & a & +&b & +&c & = & 1 \\
+\end{matrix*}
+\] \[ \cdots \] \[
+\begin{matrix*}[r]
+  (A) & a & & & & & = & \frac{2}{5} \\
+  (B) & & & b & & & = & \frac{3}{5} \\
+  (C) & & & & & c & = & 0 \\
+\end{matrix*}
+\]
+
+Es ergibt sich also als gemischte Strategie für Spieler I:
+\[
+\sigma^*_I = \sum_{s_I \in S_I} p(s_I) \text{ mit } p : S_I \mapsto [0, 1], p(T) = 
+\frac{2}{5}, p(M) = \frac{3}{5}, p(B) = 0
+\]
+
+Der erwartete Gewinn ist hierbei $3 \cdot \frac{2}{5} + 2 \cdot \frac{3}{5} + 2 \cdot
+0 = \frac{12}{5}$. \\
+
+a) Wir suchen eine Wahrscheinlichkeitsverteilung 
+
+\[
+\sigma_{II} = \sum_{s_{II} \in S_{II}} p(s_{II}) = p(L) + p(C) + p(R) = 1
+\]
+
+, sodass für jede reine Strategie von Spieler I Spieler II den gleichen erwarteten Gewinn
+hat. Sei im folgenden $a = p(L), b = p(C), c = p(R)$. Dann ergeben sich folgende erwartete
+Gewinne für Spieler II: \\
+
+Spieler I spielt T : $\quad -3a + 3b$
+
+Spieler I spielt M : $\quad -2a - 6b - 4c$
+
+Spieler I spielt B : $\quad -2a - 5b - 6c$ \\
+
+Aus den Bedingungen der Gleichheit und der zusätzlichen Bedingung $a+b+c = 1$ lässt sich ein
+lineares Gleichungssystem mit 3 linear unabhängigen Gleichungen und 3 Variablen aufstellen,
+welches eine eindeutige Lösung besitzt:
+
+\[
+-2a - 6b - 4c = -2a - 5b - 6c
+\]
+\[
+\Leftrightarrow -b + 2c = 0 \quad (A)
+\]
+
+\[
+-3a + 3b = -2a - 6b - 4c
+\]
+\[
+\Leftrightarrow -a + 9b + 4c = 0 \quad (B)
+\]
+
+\[
+a + b + c = 1 \quad (C)
+\]
+
+\[
+\begin{matrix*}[r]
+  (A) & & -&b & +&2c & = & 0 \\
+  (B) & -a & +&9b & +&4c & = & 0 \\
+  (C) & a & +&b & +&c & = & 1 \\
+\end{matrix*}
+\] \[ \cdots \] \[
+\begin{matrix*}[r]
+  (A) & & & & & 25c & = & 1 \\
+  (B) & & &10b & +& 5c & = & 1 \\
+  (C) & a & +&b & +&c & = & 1 \\
+\end{matrix*}
+\] \[ \cdots \] \[
+\begin{matrix*}[r]
+  (A) & & & & & c & = & \frac{1}{25} \\
+  (B) & & & b & & & = & \frac{2}{25} \\
+  (C) & a & & & & & = & \frac{22}{25} \\
+\end{matrix*}
+\]
+
+Es ergibt sich also als gemischte Strategie für Spieler II:
+\[
+\sigma^*_{II} = \sum_{s_{II}} \in S_{II} p(s_{II}) \text{ mit } p : S_{II} \mapsto [0, 1], p(L) = 
+\frac{22}{25}, p(C) = \frac{2}{25}, p(R) = \frac{1}{25}
+\]
+
+Der erwartete Gewinn ist hierbei $-3 \cdot \frac{22}{25} + 3 \cdot \frac{2}{25} = -
+\frac{66}{25} + \frac{6}{25} = -\frac{60}{25}$. \\
+
+\begin{Large}
+Aufgabe 4.2\\[0.0cm]
+\end{Large}
+
+a)
+
+\[
+a_1, a_2 \in A, b_1, b_2 \in B.
+\]
+
+Da $A$ und $B$ konvex:
+
+\[
+(\lambda a_1 + (1 - \lambda) \cdot a_2) \in A, (\lambda b_1 + (1 - \lambda) \cdot b_2) \in B
+\]
+\\
+\[
+(\lambda a_1 + (1 - \lambda) \cdot a_2, \lambda b_1 + (1 - \lambda) \cdot b_2)
+\]
+\[
+= (\lambda a_1, \lambda b_1) + ((1 - \lambda) \cdot a_2, (1 - \lambda) \cdot b_2)
+\]
+\[
+= \lambda(a_1, b_1) + (1 - \lambda) \cdot (a_2, b_2)
+\]
+\[
+\Rightarrow \lambda(a_1, b_1) + (1 - \lambda) \cdot (a_2, b_2) \in A \times B \Rightarrow A \times
+B \text{ konvex.}
+\]
+
+
+
+\end{document}
+

@@ -1,0 +1,274 @@
+\documentclass{scrartcl}
+ 
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[pdftex]{graphicx}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{amsfonts}
+\usepackage{tabto}
+\TabPositions{0.1in, 0.4in, 0.6in, 0.8in, 1.0in, 1.2in, 3.4in}
+
+\begin{document}
+\begin{LARGE}
+Spieltheorie - WiSe 2014/15
+\end{LARGE}
+
+\begin{Large}
+Übungsblatt 2 - Felix Dosch, Julian Felix Rost\\[1.0cm]
+\end{Large}
+
+\begin{Large}
+Aufgabe 2.1\\[0.0cm]
+\end{Large}
+
+a) 
+
+\begin{itemize}
+\item{Spiel 1:}
+\begin{itemize}
+\item{I weiß nicht, wie das initiale Zufallsexperiment ausgegangen ist}
+\item{II weiß weder, wie das initiale Zufalssexperiment ausgegangen ist, noch welche Wahl I getroffen hat}
+\end{itemize}
+\item{Spiel 2:}
+\begin{itemize}
+\item{II kennt den Ausgang des Zufallsexperiments - in einem Fall kann II zwischen $t_1$ und $b_1$ wählen,
+im anderen Fall zwischen $t_2$ und $b_2$}
+\item{I kennt den Ausgang des Zufallexperiments nicht, da II entweder mit $t_1$ oder $t_2$ gewählt haben kann}
+\end{itemize}
+\end{itemize}
+
+b)
+\begin{itemize}
+\item{Spiel 1:}
+\end{itemize}
+
+\begin{tabularx}{0.5\textwidth} {|X|X|X|}
+\hline
+$\downarrow$ I / II $\rightarrow$	& $T$		& $B$	\\
+\hline
+$T$					& (5,4)			& (9,4)	\\
+\hline
+$B$					& (2,8)			& (8,3)	\\
+\hline
+\end{tabularx}
+
+\begin{itemize}
+\item{Spiel 2:}
+\end{itemize}
+
+\begin{tabularx}{1\textwidth} {|X|X|X|X|X|}
+\hline
+$\downarrow$ I / II $\rightarrow$	& $t_1t_2$		& $t_1b_2$		& $b_1t_2$		& $b_1b_2$	\\
+\hline
+$T_1$								& (40,22)		& (36,26)		& (16,4)		& (12,8)		\\
+\hline
+$B_1$								& (44,24)		& (48,20)		& (8,12)		& (12,8)		\\
+\hline
+\end{tabularx}
+\clearpage
+
+\begin{Large}
+Aufgabe 2.2\\[0.0cm]
+\end{Large}
+
+Behauptung: Das Ergebnis einer iterierten Eliminierung strikt dominierter Strategien ist unabhängig von 
+der Reihenfolge der einzelnen Eliminierungen. \\
+
+Beweis:  Eine iterierte Eliminierung strikt dominierter Strategien besteht notwendigerweise aus dem
+Verfahren der Eliminierung und einer Menge strikt dominierter Strategien. 
+
+Für alle diese strikt dominierten Strategien gilt, dass es eine Strategie mit maximalem Nutzen im Verhältnis 
+zu ihren Alternativen und allen möglichen Gegenstrategien unter ihnen gibt, da die Definition von strikt
+dominierten Strategien vorgibt, dass es eine Bijektion vom Raum des Kreuzprodukts der Strategien und allen 
+Gegenstrategien gibt zu einem totalgeordneten Raum des Nutzen (zumindest gehen wir davon aus, dass dieser 
+Raum totalgeordnet ist). 
+
+Somit sind Paare aus Strategien und allen möglichen Gegenstrategien ebenfalls totalgeordnet. 
+Da alle möglichen Gegenstrategien in jedem dieser Paare verhältnismäßig äquivalent sind, weil es jeweils 
+alle sind, können wir genauso gut sagen, dass alle Strategien totalgeordnet sind. 
+
+Daher muss es irrelevant sein, in welcher Reihenfolge schwächere Strategien eliminiert werden; da immer nur
+ schwächere, und nicht stärkere eliminiert werden, und immer eine maximal dominierende Strategie existiert 
+(aufgrund der Existenz einer Totalordnung), die also immer als Ergebnis erreicht werden muss. 
+
+\clearpage
+
+\begin{Large}
+Aufgabe 2.3\\[0.0cm]
+\end{Large}
+
+a) Zu zeigen: Das Chomp-Spiel endet auf einem ($\infty \times \infty$)-Feld stets nach endlich
+vielen Zügen. \\
+
+Zum Beweis wollen wir im Folgenden die Spalten und Reihen jeweils in zwei verschiedene Kategorien
+einteilen: In begrenzte Spalten/Reihen $B = B_C$ $\dot{\bigcup}$ $B_R$ (endlich viele Felder frei in
+dieser Spalte/Reihe) und unbegrenzte Spalten/Reihen $U = U_C$ $\dot{\bigcup}$ $U_R$. Für alle
+$c \in B_C$ und $r \in B_R$ bezeichne $l(c)$, bzw. $l(r)$ die Anzahl belegbarer Felder in dieser
+Spalte/Reihe. Da das Spiel endet, wenn einem Spieler nur noch (1,1) als mögliches Feld bleibt und
+daher auch keine unbegrenzte Spalte oder Reihe mehr existiert ($|U| = 0$), wollen wir zeigen, dass
+wir $|U| = 0$ und in der Folge das Ende des Spiels in einer endlichen Anzahl von Zügen erreichen.\\
+
+Nach dem ersten Zug von $I$ auf beliebiges Feld $(a,b)$ ergeben sich $B_C$, $B_R$, $U_C$ und $U_R$ 
+und es gilt: $\forall c \in B_C : l(c) = b-1 \bigwedge \forall r \in B_R : l(r) = a - 1$ (alle
+begrenzten Spalten haben die gleiche Anzahl freier Felder, analog für Reihen (I)). Weiter gilt
+$|U| = |U_C| + |U_R| = (a-1) + (b-1) = a + b - 2$.
+
+Der nachfolgende Zug verringert $|U|$ zwangsläufig, da entweder eine Spalte oder eine Reihe (oder
+beides) begrenzt werden (II). \\
+
+Nach jedem Zug gibt es zwei Möglichkeiten:
+\begin{itemize}
+\item{i) Es entsteht eine Situation wie in I, wodurch $|U|$ anschließend kleiner wird (II)}
+\item{ii) Es entsteht eine Situation, in der begrenzte Reihen und Spalten nicht alle jeweils
+gleich viele Felder haben ($\exists c_1, c_2 \in B_C : l(c_1) \neq l(c_2)) \bigwedge \exists 
+r_1, r_2 \in B_R : l(r_1) \neq l(r_2)$)}
+\end{itemize}
+
+Im zweiten Fall gilt Folgendes: Ein Zug auf ($\min_{r \in B_R}{l(r)}+1,\min_{c \in B_C}{l(c)}+1)$
+\begin{itemize}
+\item{verringert $|U|$ nicht}
+\item{führt wieder zu einer Situation wie in I}
+\item{eliminiert eine endliche Anzahl belegbarer Felder, sprich es existiert  eine endliche Anzahl 
+an möglichen Zügen, bevor dieses Feld erreicht wird und $|U|$ dann verringert werden muss (III)}
+\end{itemize}
+
+Aus der Tatsache, dass $|U|$ mit jedem Anfangszug einen endlichen Wert annimmt und spätestens nach
+endlich vielen Zügen jeweils verringert wird folgt, dass $|U|$ nach einer endlichen Anzahl von
+Zügen den Wert 0 annimmt. In diesem Fall bleibt nur eine endliche Anzahl von Feldern übrig, was
+eine endliche Anzahl von verbleibenden Zügen impliziert, welche nach jedem Zug ebenfalls kleiner
+wird, bis kein Zug mehr möglich und das Spiel beendet ist. \\
+
+b) Auf dem ($\infty \times 2$)-Feld hat Spieler 2 eine Gewinnstrategie. Diese lässt sich wie folgt
+grob beschreiben:
+
+Spieler I kann auf ein Feld in der oberen oder in der unteren Reihe setzen.
+\begin{itemize}
+\item{Setzt I in die untere Reihe, so entsteht nach diesem Zug ein ($m \times 2$)-Feld. Für dieses
+endliche, rechteckige Feld wurde in der Vorlesung gezeigt, dass für den Spieler, der hier den
+ersten Zug machen kann, eine Gewinnstrategie existiert. Da Spieler II nun dran ist, besitzt er
+eine Gewinnstrategie, falls I in die untere Reihe setzt und ein ($m \times 2$)-Feld ensteht}
+\item{Setzt I in die obere Reihe auf $(m, 2)$, so ist die Strategie für II ein Setzen auf 
+$(m+1, 1)$, d.h. in die untere Reihe, so, dass das Feld unter $(m, 2)$ frei bleibt. Die Konsequenz
+ist, dass I mit einem Setzen in die untere Reihe II wieder eine Gewinnstrategie liefert (Fall 1) und
+beim Setzen in die obere Reihe II wieder entsprechend reagiert (Fall 2), wobei das Spielfeld immer
+kleiner wird.}
+\end{itemize}
+
+Offensichtlich kann I nur so lange in die obere Reihe setzten, bis auf Feld $(1,2)$ gesetzt wird. Dann
+setzt II auf $(2,1)$ und es bleibt kein Zug für I. \\
+
+c) Auf dem ($\infty \times n$)-Feld für $n \in \mathbb{N} \setminus \{2\}$ hat Spieler I eine
+Gewinnstrategie, wobei wir 2 Fälle unterscheiden:
+\begin{itemize}
+\item{$n = 1$ : Trivial, hier setzt I auf $(2,1)$ und es bleibt nur $(1,1)$ für II}
+\item{$n > 2$ : Spieler I setzt auf $(1,3)$ und führt das Spiel damit auf die Ausgangslage des
+Spiels auf dem ($\infty \times 2$)-Feld zurück, wo der reagierende Spieler (wie in b) gezeigt) eine 
+Gewinnstrategie hat. Da II jetzt an der Reihe ist, hat I somit eine Gewinnstrategie}
+\end{itemize}
+
+d) Auf dem ($\infty \times \infty$)-Feld hat Spieler I eine Gewinnstrategie. Insgesamt sind es genau
+3 Gewinnstrategien. Wir geben zunächst die Gewinnstrategien an, bzw. zeigen dass diese existieren,
+und zeigen dann, warum diese 3 die einzigen sind. Diese 3 Züge sind jeweils der Anfang einer
+Gewinnstrategie für I:
+\begin{itemize}
+\item{$(1,3)$ : Dies führt das Spiel wie in c) zurück auf das Spiel auf dem ($\infty \times 2$)-Feld,
+wofür wir in b) die Existenz einer Gewinnstrategie für den reagierenden Spieler gezeigt haben}
+\item{$(3,1)$ : Symmetrisch zu $(1,3)$}
+\item{$(1,1)$ : Die Gewinnstrategie auf dem quadratischen Spielfeld - nach diesem Zug kann I immer 
+symmetrisch zu II ziehen, bis II auf $(2,1)$ oder $(1,2)$ ziehen muss}
+\end{itemize}
+
+Dass der 3. Fall genau eine Strategie beschreibt ist offensichtlich, zu zeigen ist noch, dass $(1,3)$
+und $(3,1)$ die einzig möglichen ersten Züge einer Gewinnstrategie sind und dass die in
+b) beschriebene Strategie für das ($\infty \times 2$)-Feld die einzige Gewinnstrategie ist. \\
+
+Macht I keinen der oben genannten Züge, so zieht I entweder auf $(2,1)$ oder $(1,2)$ womit II leicht
+direkt gewinnt, oder ermöglicht II mindestens einen dieser Züge, womit II eine Gewinnstrategie hat.
+Daher bleiben nur diese Züge als Anfang einer Gewinnstrategie.
+
+Wir sind also nun auf dem ($\infty \times 2$)-Feld\footnote{Wir zeigen hier nur den Fall, in dem I auf
+$(1,3)$ gesetzt hat. Der $(3,1)$-Fall ist komplett symmetrisch dazu} mit II am Zug. Dass II dann mit 
+einem Zug in die untere Reihe keine Gewinnstrategie mehr besitzt haben wir gezeigt. Auf einen Zug in 
+die obere Reihe auf $(m,2)$ könnte I auf verschiedene Arten reagieren:
+\begin{itemize}
+\item{Zug in die obere Reihe : Jetzt kann II den Spieß umdrehen und die ursprüngliche Gewinnstrategie
+für I anwenden, d.h. I verliert hier seine Gewinnstrategie}
+\item{Zug in die untere Reihe auf $(a,1)$ mit $a \leq m \Rightarrow$
+rechteckiges Feld, Spieler am Zug hat Gewinnstrategie, also verliert auch hier I seine Gewinnstrategie}
+\item{Zug in die untere Reihe auf $(a,1)$ mit $a > m+1 \Rightarrow$ hier
+kann II mit einem Zug auf $(b,1)$ mit $b=m+1$ zur Gewinnstrategie kommen, I verliert auch hier seine
+Gewinnstrategie}
+\item{Zug in die untere Reihe auf $(a,1)$ mit $a = m+1$. Dies ist der einzige verbleibende Zug und der
+einzige, mit dem I eine Gewinnstrategie behält}
+\end{itemize}
+Daher hat Spieler I zu Beginn des Spiels genau 3 Gewinnstrategien.
+
+\clearpage
+
+\begin{Large}
+Aufgabe 2.4\\[0.0cm]
+\end{Large}
+
+a) Behauptung: Ein zu Beginn schon auf dem Feld liegender Stein kann dem Spieler "`nie schaden"', dem er
+gehört. \\
+
+Zunächst wollen wir definieren, was wir unter "`schaden"', bzw. "`nie schaden"' verstehen. Ein Stein, der zu
+Beginn auf einem Feld liegt, schadet - im Vergleich zum leeren Brett - dem Spieler, dem er gehört, wenn
+dieser Spieler auf dem leeren Brett eine Gewinnstrategie hat und nun, mit dem Stein, keine Gewinnstrategie
+mehr hat. Hatte der Spiele auf dem leeren Brett bereits keine Gewinnstrategie, so kann der Stein ihm
+folglich nie schaden (nun hätte er schlimmstenfalls immer noch keine Gewinnstrategie).
+
+Beweis:  Angenommen, es gäbe eine Gewinnstrategie für diesen Spieler ($A$) auf dem leeren Brett.\\
+
+Fallunterscheidung: 
+\begin{itemize}
+\item{1. Fall: Der Stein liegt auf einem Feld, das in der Strategie nicht vor kommt. Dann kann der Spieler
+$A$ einfach seine Strategie wie vorgesehen spielen, und der Stein hat für diese Strategie keinen Nutzen; 
+insbesondere erzeugt er also auch keine negativen Auswirkungen. Die Tatsache, dass der Gegner $B$ nun ein
+Feld weniger zur Auswahl hat und auf andere Felder ausweichen muss, ist nicht von Belang - könnte er mit
+einem Zug auf eines dieser Felder einen Sieg von $A$ verhindern, dann hätte er dies auch bereits in der
+Ausgangssituation mit dem leeren Brett tun können - laut Annahme hat $A$ hier jedoch eine
+Gewinnstrategie. Somit hat $A$ immer noch eine Gewinnstrategie falls einer seiner Steine zu Beginn schon
+auf dem Brett liegt.}
+\item{2. Fall: Der Stein liegt auf einem Feld, das in der Strategie erwähnt wird. Dann kann der Spieler 
+statt auf dieses Feld zu legen, auf ein weiteres, zufälliges Feld legen, und das Spielfeld im Weiteren
+betrachten, als ob er seinen Zug hätte tätigen können. Für das zufällig bestimmte Feld gilt entweder Fall
+1 oder Fall 2. Da das Spielfeld endlich ist, wird ein so kaskadiert belegtes Feld irgendwann ein Feld vom
+Typ Fall 1 ($A$ hat noch Gewinnstrategie) sein, oder das Spiel nach dem Zug zu Ende sein, wobei $A$ gewinnt
+da es bis zu diesem Zug eine Gewinnstrategie hat. Somit hat $A$ auch hier immer noch eine Gewinnstrategie
+falls einer seiner Steine zu Beginn schon
+auf dem Brett liegt.}
+\end{itemize}
+
+b)
+
+i) Es reicht, ein voll besetztes Brett zu betrachten, da bei noch nicht voll besetzten Brettern entweder
+bereits ein Spieler gewonnen hat, oder ein Spieler noch am Zug ist, d.h. das Spiel ist noch nicht beendet.\\
+
+ii) Wir zeigen das Lemma durch Betrachtung der Knotengrade. Laut Voraussetzung haben alle Knoten höchstens
+den Grad 2.
+
+\begin{itemize}
+\item{Grad 0 : \textbf{Isolierter Knoten}}
+\item{Grad 1 : Knoten mit Grad 1 befinden sich am Ende von Pfaden. Der angrenzende Knoten hat entweder auch
+den Grad 1 (Zusammenhangskomponente mit 2 Knoten und 1 Kante ist ein \textbf{einfacher Pfad}), oder den
+Grad 2}
+\item{Grad 2: Es grenzt entweder ein Knoten mit Grad 1 an, oder ein weiterer Knoten mit Grad 2.}
+\begin{itemize}
+\item{Grad 1 : Ende eines \textbf{einfachen Pfades}. Geht man in die andere Richtung, kann es nur eine
+endliche Menge von Knoten (Def. Einfacher Graph) geben, von denen der letzte den Grad 1 haben muss, sonst
+wäre es nicht der letzte}
+\item{Grad 2 : Kann wieder angrenzen an Knoten von Grad 1 (Ende eines \textbf{einfachen Pfades} oder wieder
+an einen Knoten von Grad 2. Sind in der Zusammenhangskomponente mindestens 3 Knoten und alle vom Grad 2 so
+kann es sich nur um einen \textbf{einfachen Zyklus} handeln, da es kein Ende gibt (Knoten vom Grad 1) und
+jeder Knoten nur Kanten hat zur linken und rechten Seite des Zyklus} 
+
+\end{itemize}
+\end{itemize}
+
+\end{document}
+

@@ -1,0 +1,159 @@
+\documentclass{scrartcl}
+ 
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[pdftex]{graphicx}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{amsfonts}
+\usepackage{tabto}
+\usepackage{mathtools}
+\TabPositions{0.1in, 0.4in, 0.6in, 0.8in, 1.0in, 1.2in, 3.4in}
+
+\begin{document}
+\begin{LARGE}
+Spieltheorie - WiSe 2014/15
+\end{LARGE}
+
+\begin{Large}
+Übungsblatt 5 - Felix Dosch\\[1.0cm]
+\end{Large}
+
+\begin{Large}
+Aufgabe 5.1\\[0.0cm]
+\end{Large}
+
+a) Zu zeigen:
+\[
+\Sigma_i = \Delta(S_i) = \{\sigma : S_i \longrightarrow [0,1] | \sum_{s_i \in S_i} \sigma(s_i) = 1\}
+\]
+ist kompakt. Dazu benutzen wir den Satz von Heine-Borel und zeigen
+\begin{itemize}
+\item{i) $\Sigma_i$ ist abgeschlossen}
+\item{ii) $\Sigma_i$ ist beschränkt}
+\end{itemize}
+
+Zu i) \\
+
+Zu zeigen: 
+\[
+\forall x \in \mathbb{R}^n \setminus \Sigma_i \quad  \exists \epsilon > 0 \quad \forall y 
+\in \mathbb{R}^n \text{ mit } \|x-y\| < \epsilon : y \in \mathbb{R}^n \setminus \Sigma_i
+\], wobei $n$ die Anzahl der Spieler sein möge.
+In Worten: Für jeden Punkt ausserhalb von $\Sigma_i$ gibt es eine Umgebung mit "Radius" $\epsilon$,
+sodass jeder Punkt in dieser Umgebung ebenfalls ausserhalb von $\Sigma_i$ liegt. \\
+
+Wir betrachten die Elemente von $\Sigma_i$ als Vektoren des $\mathbb{R}^n$:
+\[
+\Sigma_i =  \{v = (v_1, v_2, ..., v_n)^T \in \mathbb{R}^n | \sum_{i = 1}^n v_i = 1, v_i \geq 0 \quad 
+\forall i\}
+\]
+ $\Sigma_i$ ist Teilmenge
+einer Hyperebene im $\mathbb{R}^n$, welche durch die Punkte $(1, 0, ..., 0)$, $(0, 1, ..., 0)$ ...
+$(0, 0, ..., 1)$ verläuft. Der Normalenvektor zu dieser Hyperebene ist der Vektor $\overrightarrow{n}
+(\frac{1}{n}, \frac{1}{n}, ..., \frac{1}{n})^T$.
+
+Die Entfernung eines beliebigen Punktes in $\mathbb{R}^n \setminus \Sigma_i$ zu $\Sigma_i$ ist also
+in dieser Richtung (gleichmäßig in jeder Dimension) am kleinsten. \\
+
+Sei nun $x \in \mathbb{R}^n \setminus \Sigma_i$ beliebig mit $\sum_{i \in \{1, ..., n\}} x_i = 1 + 
+\delta$. Per Definition von $\Sigma_i$ ist $\delta \neq 0$.
+
+Wir verteilen $\delta$ gleichmäßig
+auf alle Dimensionen "`auf dem Weg"' zu einem Element in $\Sigma_i$. Wie oben argumentiert, erreichen wir
+ein solches mit minimalem Abstand in dieser Richtung.
+
+Wir betrachten den Punkt $y$, den wir erreichen, mit
+
+\[\|x - y\| = \sqrt{(\frac{\delta}{n})^2 + (\frac{\delta}{n})^2 + ... + (\frac{\delta}{n})^2} = 
+\sqrt{n \cdot (\frac{\delta}{n})^2} = \sqrt{n} \cdot \frac{\delta}{n} = \frac{\delta}{\sqrt{n}}
+\]
+
+$y$ ist entweder in $\Sigma_i$ oder nicht, es gibt aber keinen Punkt, der näher an $x$ liegt und in
+$\Sigma_i$ ist (wg. Normalenvektor).
+
+Daher: 
+
+Für jedes $x = (1 + \delta) \in \mathbb{R}^n \setminus \Sigma_i$ wähle $\epsilon = \frac{\delta}
+{\sqrt{n}}$, womit $\forall y \in \mathbb{R}^n \text{ mit } \|x-y\| < \epsilon : y \in \mathbb{R}^n 
+\setminus \Sigma_i$. \\
+
+Zu ii) \\
+
+Wir betrachten $\Sigma_i$ wieder als Menge von Vektoren des $\mathbb{R}^n$. Wir können die Vektoren nach
+ihrer Länge ordnen und eine obere und untere Schranke angeben, womit die Menge beschränkt ist.
+
+Als obere Schranke kann man 1 wählen (Einheitsvektoren in jede Richtung).
+
+Als untere Schranke kann man den Abstand der Hyperebene zum Ursprung wählen, also $\frac{1}{\sqrt{n}}$. \\
+
+\begin{Large}
+Aufgabe 5.2\\[0.0cm]
+\end{Large}
+
+a) $X$ ist nicht leer, da $\Sigma_i$ nicht leer für alle $i$. $X \subseteq \mathbb{R}^m$, da $\Sigma_i
+\subseteq \mathbb{R}^l \forall i$ und $X = \bigtimes_{i} \Sigma_i \Rightarrow X \subseteq 
+\mathbb{R}^{n \times l} = \mathbb{R}^m$. $X$ ist als Kreuzprodukt konvexer und kompakter Mengen ebenfalls
+kompakt und konvex (in Aufgabe 2.4 bewiesen). \\
+
+b) Zu zeigen: Die Menge der "`besten Antworten"' ist nicht leer und konvex. \\
+
+\begin{itemize}
+\item{nicht leer: $U_i$ liefert immer einen Wert zurück, also ist für $arg max$ immer mindestens ein Wert
+verfügbar, der zurückgegeben werden kann. Also ist die zurückgegebene Menge nicht leer.}
+\item{Konvexität: Entweder gibt es genau eine Strategie, die die beste Antwort ist (Ein-elementige Menge
+trivialerweise konvex) oder es gibt mehrere gemischte Strategien als beste Antworten - Dann sind auch alle
+möglichen Konvex.Kombinationen zweier solcher Strategien Elemente der besten Antworten. (Es ist egal wie Spieler
+$i$ seine Strategie wählt, es hat keinen Einfluss auf das Ergebnis)}
+\end{itemize}
+
+c) Zu zeigen: Der Graph von $f$ ist abgeschlossen. \\
+
+Wie das zu zeigen ist, weiß ich nicht. Das einzige was ich jetzt dazu gefunden habe ist folgendes, was sich
+aber nicht auf den Graph von $f$, sondern auf $f$ bezieht: \\
+
+Die Abgeschlossenheit von $BR_i(\sigma)$ folgt aus der Stetigkeit der $U_i$, denn für jede konvergente
+Folge $^{k}t \in U_i(\sigma'_i, \sigma_{-i})(s)$ folgt aus der Ungleichung $U_i(^{k}t^{i}, \sigma_{-i})
+\geq U_i(\sigma'_i, \sigma_{-i})$ die Ungleichung im Grenzpunkt.\footnote{
+https://www.uni-due.de/\~{}hn215go/gollmer/teaching/Spieltheorie\_3.pdf - S.6, Beweis zu
+Lemma 3.96}
+
+d) Da alle Voraussetzungen des Satzes erfüllt sind (wie in a) bis c) gezeigt), hat $BR_i$ einen Fixpunkt.
+Das heißt $\exists \sigma'_i \in \Sigma_i : \sigma'_i \in BR_i(\sigma'_i, \sigma_{-i})$. In anderen
+Worten: Es gibt eine Kombination gemischter Strategien der anderen Spieler, sodass bei Wahl von $\sigma'_i$
+als Strategie von Spieler $i$, seine beste Antwort $\sigma'_i$ ist, bzw. keine andere Antwort besser ist.
+
+Da dies nicht nur für einen Spieler, sondern für alle Spieler gilt (betrachte $BR$ statt nur $BR_i$), hat
+kein Spieler eine bessere Antwort als seine aktuell gewählte Strategie. Daher besitzt das Spiel ein
+Nash-Gleichgewicht in gemischten Strategien. \\
+
+\begin{Large}
+Aufgabe 5.3\\[0.0cm]
+\end{Large}
+
+Das einzige symmetrische Nash-Gleichgewicht in diesem Spiel ist $((0 \cdot Dove, 1 \cdot Hawk),(0 \cdot
+Dove, 1 \cdot Hawk))$, da bei(Dove, Dove) z.B. in der Zeile eine Abweichung in Richtung Hawk einen
+Nutzenzuwachs bringt. \\
+
+Im Gleichgewicht (Hawk, Hawk) ist bei einer Abweichung um $\epsilon$ (Störung) Hawk immer noch die beste
+Antwort, sowohl für den Zeilenspieler (bei Abweichung des Spaltenspielers), als auch umgekehrt für den
+Spaltenspieler (aufgrund der Symmetrie). Insbesondere gilt dies, da für alle reinen Strategien gilt, dass
+der Nutzen bei Wahl von Hawk IMMER größer ist als der Nutzen von Dove - unabhängig von der Strategie des
+Gegners. Es ist also IMMER die beste Strategie, Hawk zu spielen, somit ist es auch immer die beste Antwort
+und damit natürlich auch bei geringer Störung des Spiels. Daher ist (Hawk, Hawk) auch evolutionär
+stabile Strategie. \\ \\
+
+\Large {Anmerkung:} \\
+
+\normalsize
+Ich habe den Eindruck, dass die Aufgaben nochmal etwas schwerer geworden sind - entgegen deiner Aussage,
+dass die Aufgaben etwas leichter werden sollten. Normalerweise habe ich keine übermäßig großen Probleme mit 
+mathematischen Aufgaben, jedoch habe ich den Eindruck, dass mein mathematisches Wissen hier und da bei den
+Aufgaben an seine Grenzen stößt...Ich habe den Mittwoch-Nachmittag und fast den gesamten Donnerstag und nun
+noch Montag-Abend mit der Bearbeitung der Aufgaben verbracht. Ich finde das etwas viel.
+\end{document}
+
