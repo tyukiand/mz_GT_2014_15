@@ -1,0 +1,67 @@
+\documentclass{scrartcl}
+ 
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[pdftex]{graphicx}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{amsfonts}
+\usepackage{tabto}
+\usepackage{mathtools}
+\TabPositions{0.1in, 0.4in, 0.6in, 0.8in, 1.0in, 1.2in, 3.4in}
+
+\begin{document}
+\begin{Large}
+Aufgabe 11.2\\[0.0cm]
+\end{Large}
+
+a) \\
+
+Wir versuchen, den erwarteten Nutzen für jeden Spieler zu maximieren. Wir nehmen dabei an,
+dass $b_i \leq 2$, da es nicht sinnvoll ist, ein Gebot abzugeben, welches größer ist als der
+mögliche Wert des Gegenstandes für einen Spieler. \\
+
+Wir zeigen, dass folgende Strategie für jeden Spieler ein symmetrisches Gleichgewicht ist: \\
+
+\[
+b_i(v_i) = \frac{v_i}{2}, \quad i = 1, 2, 3
+\]
+
+Wir betrachten ohne Einschränkung den Nutzen für Spieler I und bezeichnen mit $b^*$ das
+Gebot, welches abgesehen vom Gebot von Spieler I, das höchste Gebot sei (unter der
+Annahme, dass diese auch diese Strategie spielen - ihre Gebote seien daher $b^*_2$ und
+$b^*_3$): \\
+
+\[
+b^* = \frac{v^*}{2}= max \{b^*_2, b^*_3\} = max \{\frac{v_2}{2}, \frac{v_3}{2}\}
+\]
+
+Damit ist der Nutzen für Spieler 1: \\
+
+\[
+u_1(b_1, b^*, v_1) = u_1(b_1, \frac{v^*}{2}, v_1)
+\]
+\[
+= P(b_1 > \frac{v^*}{2}) \cdot (v_1 - b_1)
+\]
+\[
+= P(2b_1 > v^*) \cdot (v_1 - b_1)
+\]
+\[
+= min\{2b_1,1\} \cdot (v_1 - b_1)
+\]
+
+Diese Funktion ist quadratisch auf dem Intervall $b_1 \in [0, \frac{1}{2}]$ (erreicht
+das Maximum bei $b_1 = \frac{v_1}{2}$), und linear mit negativer Steigung, wenn
+$b_1 > \frac{1}{2}$. \\
+
+Fazit: Wenn die beiden anderen Spieler die Strategie $b_i = \frac{v_i}{2}$ spielen,
+so ist für Spieler I $b_1 = \frac{v_1}{2}$ die beste Antwort. Damit ist $b^* =
+b_i(v_i) = \frac{v_i}{2}$ ein symmetrisches Gleichgewicht.
+
+
+\end{document}
