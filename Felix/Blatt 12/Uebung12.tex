@@ -1,0 +1,62 @@
+\documentclass{scrartcl}
+ 
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[pdftex]{graphicx}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{amsfonts}
+\usepackage{tabto}
+\usepackage{mathtools}
+\TabPositions{0.1in, 0.4in, 0.6in, 0.8in, 1.0in, 1.2in, 3.4in}
+
+\begin{document}
+\begin{Large}
+Aufgabe 12.1\\[0.0cm]
+\end{Large}
+
+\textbf{Zu zeigen: }Ein gleichschenkliges Dreieick (im $\mathbb{R}^2)$, dessen Basis in der $x_1$-Achse
+liegt, wird durch eine komponentenweise positiv-affine Transformation in ein gleichschenkliges Dreieck,
+dessen Basis auf einer Parallelen zur $x_1$-Achse liegt, überführt. \\
+
+\textbf{Beweis: }Wir haben ein gleichschenkliges Dreieck gegeben, dessen Basis in der $x_1$-Achse liegt.
+Daher wissen wir folgendes über die drei Eckpunkte $A, B$ und $C$: \\
+
+\begin{itemize}
+\item{$A = (a_1, a_2) = (a_1, 0)$}
+\item{$B = (b_1, b_2) = (a_1 + c, 0$)}
+\item{$C = (c_1, c_2) = (a_1 + \frac{c}{2}, c_2$)}
+\end{itemize}
+
+\includegraphics{triangle.png} \\
+
+Sei $\alpha x + \beta$ eine komponentenweise positiv-affine Transformation von $x \in \mathbb{R}^2$, d.h.
+$\alpha > 0$ und $\beta \in \mathbb{R}^2$. Wir wenden diese Transformation auf $A, B$ und $C$ an: \\
+
+\begin{itemize}
+\item{$A' = \alpha A + \beta = (\alpha_1 a_1 + \beta_1, 0 + \beta_2)$}
+\item{$B' = \alpha B + \beta = (\alpha_1 \cdot (a_1 + c) + \beta_1, 0 + \beta_2$)}
+\item{$C' = \alpha C + \beta = (\alpha_1 \cdot (a_1 + \frac{c}{2}) + \beta_1, \alpha_2 c_2 + \beta_2$)}
+\end{itemize}
+
+Wir stellen fest: \\
+
+\begin{itemize}
+\item{$A'$ und $B'$ haben beide den $x_2$-Wert $\beta_2 \Rightarrow A'$ und $B'$ liegen auf der Parallele
+zur $x_1$-Achse durch $(0, \beta_2)$. $\overline{A'B'}$ ist die Basis des gleichschenkligen Dreiecks.}
+\item{Die Distanz zwischen$A'$ und $B'$ beträgt $\alpha_1 \cdot (a_1 + c) + \beta_1 - (\alpha_1 a_1 +
+\beta_1) = \alpha_1 \cdot c$. Die Differenz der $x_1$-Werte von $A$ und $C$ beträgt $\alpha_1 \cdot (a_1 +
+\frac{c}{2}) + \beta_1 - (\alpha_1 a_1 + \beta_1) = \alpha_1 \cdot \frac{c}{2}$. Das ist genau
+die Hälfte der Differenz der $x_1$-Werte von $A'$ und $B' \Rightarrow C'$ liegt auf der Mittelsenkrechten
+zu $\overline{A'B'}$.}
+\end{itemize}
+
+Da $A'B'$ parallel zur $x_1$-Achse ist und $C'$ auf der Mittelsenkrechten zu $A'B'$ liegt, ist $A'B'C'$
+ein gleichschenkliges Dreieck, dessen Basis auf einer Parallelen zur $x_1$-Achse liegt.
+
+
+\end{document}
